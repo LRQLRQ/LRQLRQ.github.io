@@ -399,15 +399,76 @@
                 <p><strong>刷LeetCode心得体会</strong></p>
 <p>11.23日，第一次刷LeetCode，有一个题我写了28行，看了讨论区别人只写了4行，看了他写的代码，是用了javascript的一些方法，我不知道这些方法，还是像C语言一样实现了一下。<br>总结一下javascript的一些方法</p>
 <p>有个题目是返回输入的数字的倒序<br>代码如下</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var reverse = function(x){</span><br><span class="line">    result = parseInt(x.toString().split('').reverse().join(''));</span><br><span class="line">    if(result &gt; Math.pow(2,31)-1 || -result &lt; Math.pow(-2,31)-1) return 0;</span><br><span class="line">    return x &gt; 0 ? result : -result;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<pre><code>var reverse = function(x)&amp;#123;
+    result = parseInt(x.toString().split('').reverse().join(''));
+    if(result &gt; Math.pow(2,31)-1 || -result &lt; Math.pow(-2,31)-1) return 0;
+    return x &gt; 0 ? result : -result;
+&amp;#125;</code></pre>
 <p><code>x.toString</code> 是把输入的数字转化为字符串<br><code>x.split('')</code>是把生成的字符串根据’’切割，转化为数组<br><code>x.reverse()</code> 是把数组进行倒序<br><code>x.join('')</code> 是将数组组合成字符串</p>
 <hr>
 <p>11.27 Roman to Integer<br>        今天做了一道将罗马数字转化为数字的题，罗马数字中I为1，V为5，X为10，L为50，C为100，D为500，M为1000.但是表示4的时候不是表示IIII，而是IV，I在V左边表示5-1=4，像这样的都有 IV=4  IX=9  XL=40  XC=90  CD=400 CM=900.<br>然后根据罗马数字的输入来得到整数的输出，我的代码是这样：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @param {string} s</span><br><span class="line"> * @return {number}</span><br><span class="line"> */</span><br><span class="line">var romanToInt = function(s) {</span><br><span class="line">    var num_IV = s.split('IV').length-1;    //-1</span><br><span class="line">    var num_IX = s.split('IX').length-1;    //-1    </span><br><span class="line">    var num_XL = s.split('XL').length-1;    //-10</span><br><span class="line">    var num_XC = s.split('XC').length-1;    //-10</span><br><span class="line">    var num_CD = s.split('CD').length-1;    //-100</span><br><span class="line">    var num_CM = s.split('CM').length-1;    //-100</span><br><span class="line">    var num_I = s.split('I').length-1;</span><br><span class="line">    var num_V = s.split('V').length-1;</span><br><span class="line">    var num_X = s.split('X').length-1;</span><br><span class="line">    var num_L = s.split('L').length-1;</span><br><span class="line">    var num_C = s.split('C').length-1;</span><br><span class="line">    var num_D = s.split('D').length-1;</span><br><span class="line">    var num_M = s.split('M').length-1;</span><br><span class="line">    var result = 0;</span><br><span class="line"></span><br><span class="line">    result = num_I + num_V*5 + num_X*10 + num_L*50 + num_C*100 + num_D*500 + num_M*1000 </span><br><span class="line">    - num_IV*2 - num_IX*2 - num_XL*20 - num_XC*20 - num_CD*200 - num_CM*200;</span><br><span class="line">    </span><br><span class="line">    return result;</span><br><span class="line">    </span><br><span class="line">};</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<pre><code>/**
+ * @param &amp;#123;string&amp;#125; s
+ * @return &amp;#123;number&amp;#125;
+ */
+var romanToInt = function(s) &amp;#123;
+    var num_IV = s.split('IV').length-1;    //-1
+    var num_IX = s.split('IX').length-1;    //-1    
+    var num_XL = s.split('XL').length-1;    //-10
+    var num_XC = s.split('XC').length-1;    //-10
+    var num_CD = s.split('CD').length-1;    //-100
+    var num_CM = s.split('CM').length-1;    //-100
+    var num_I = s.split('I').length-1;
+    var num_V = s.split('V').length-1;
+    var num_X = s.split('X').length-1;
+    var num_L = s.split('L').length-1;
+    var num_C = s.split('C').length-1;
+    var num_D = s.split('D').length-1;
+    var num_M = s.split('M').length-1;
+    var result = 0;
+
+    result = num_I + num_V*5 + num_X*10 + num_L*50 + num_C*100 + num_D*500 + num_M*1000 
+    - num_IV*2 - num_IX*2 - num_XL*20 - num_XC*20 - num_CD*200 - num_CM*200;
+
+    return result;
+
+&amp;#125;;
+</code></pre>
 <p>这样写代码很冗杂，才超过了百分之30多的人。。。也算是初步会用了js的一些方法吧。<br>如果想求某个字符串temp，在字符串s中出现的次数，可以用s.split(‘temp’).length-1，来获得。s.split(‘temp’)后得到一个数组，再求出这个数组的长度，再-1，因为split操作后，数组中会出现’’元素。</p>
 <p>看了看discussion，发现另一种用slice实现的方法，虽然也有点暴力，没有为之一振的感觉，但是初学者，能吸收一点是一点，放在这里刚好可以对比着学习split和slice这两个方法了</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">var romanToInt = function(s) {</span><br><span class="line">    var roman = {        //定义存储的数组</span><br><span class="line">        'I': 1,</span><br><span class="line">        'V': 5,</span><br><span class="line">        'X': 10,</span><br><span class="line">        'L': 50,</span><br><span class="line">        'C': 100,</span><br><span class="line">        'D': 500,</span><br><span class="line">        'M': 1000,</span><br><span class="line">        'IV': 4,</span><br><span class="line">        'IX': 9,</span><br><span class="line">        'XL': 40,</span><br><span class="line">        'XC': 90,</span><br><span class="line">        'CD': 400,</span><br><span class="line">        'CM': 900,</span><br><span class="line">    };</span><br><span class="line">    var ret = 0;</span><br><span class="line">    for (var i = 0; i &lt; s.length; ) {</span><br><span class="line">        var j = i + 1;    //每次j只比i大1，是当前元素的下一个元素</span><br><span class="line">        if (j === s.length) {    //如果j为字符串的长度，就说明到了最后，进行最后一次运算</span><br><span class="line">            ret += roman[s.slice(i, j)];</span><br><span class="line">            return ret;</span><br><span class="line">        }</span><br><span class="line">        if (s.slice(i, j + 1) in roman) {        //如果连着2个字符出现在之前存储的数组中，即出现了IV、IX这些</span><br><span class="line">            ret += roman[s.slice(i, j + 1)];</span><br><span class="line">            i = j + 1;</span><br><span class="line">        } else {</span><br><span class="line">            ret += roman[s.slice(i, j)];</span><br><span class="line">            i = j;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    return ret;</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure>
-
+<pre><code>var romanToInt = function(s) &amp;#123;
+    var roman = &amp;#123;        //定义存储的数组
+        'I': 1,
+        'V': 5,
+        'X': 10,
+        'L': 50,
+        'C': 100,
+        'D': 500,
+        'M': 1000,
+        'IV': 4,
+        'IX': 9,
+        'XL': 40,
+        'XC': 90,
+        'CD': 400,
+        'CM': 900,
+    &amp;#125;;
+    var ret = 0;
+    for (var i = 0; i &lt; s.length; ) &amp;#123;
+        var j = i + 1;    //每次j只比i大1，是当前元素的下一个元素
+        if (j === s.length) &amp;#123;    //如果j为字符串的长度，就说明到了最后，进行最后一次运算
+            ret += roman[s.slice(i, j)];
+            return ret;
+        &amp;#125;
+        if (s.slice(i, j + 1) in roman) &amp;#123;        //如果连着2个字符出现在之前存储的数组中，即出现了IV、IX这些
+            ret += roman[s.slice(i, j + 1)];
+            i = j + 1;
+        &amp;#125; else &amp;#123;
+            ret += roman[s.slice(i, j)];
+            i = j;
+        &amp;#125;
+    &amp;#125;
+    return ret;
+&amp;#125;;</code></pre>
 <p><code>if (s.slice(i, j + 1) in roman) </code> 我觉得这个知识点有点东西，得记一下。<br>依据键来取声明式对象中的值</p>
 <p>此外，slice方法，是输入两个index，返回的是该字符串中，两个index之间的字符串。<br>而split方法，是把字符串进行切分，分割成若干个数组。</p>
 <hr>
@@ -417,11 +478,34 @@
 <hr>
 <p>11.29 判定一个括号是不是成对出现，符合规则<code>{[()]}</code>,比如说是这样</p>
 <p>我的思路：<br>1.重复将输入的字符串根据<code>() [] {}</code> 进行split拆分成数组，再合并起来，一直到最后结果变为 <code>''</code>,这就说明成功了。具体代码如下：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var temp = s;</span><br><span class="line">while(1){</span><br><span class="line">    temp = s.split("()").join("").split("[]").join("").split("{}").join("");</span><br><span class="line">    if(temp=="")</span><br><span class="line">        return true;</span><br><span class="line">    if(temp==s){</span><br><span class="line">        return false;</span><br><span class="line">    }</span><br><span class="line">    s = temp;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<pre><code>var temp = s;
+while(1)&amp;#123;
+    temp = s.split("()").join("").split("[]").join("").split("&amp;#123;&amp;#125;").join("");
+    if(temp=="")
+        return true;
+    if(temp==s)&amp;#123;
+        return false;
+    &amp;#125;
+    s = temp;
+&amp;#125;</code></pre>
 <p>但是这样运行效率太差劲了，只超过了10%的人，菜的要死。<br>然后在dission看到了超过100%的人。。学习一下<br>思路：<br>1.将括号的左边，和括号的右边存在两个Set对象中，将成对的括号制成map表，以左边括号为key，以右边括号为value<br>2.用一个栈，随时储存和进行操作<br>3.对传入的字符串进行遍历，如果是一个左括号的类型的值，则push到栈顶。如果是一个右括号类型的值，就pop弹出栈顶的值，此时栈顶是左括号的最后一个的值，弹出之后就变成了前一个。拿弹出的值对应的map和此时的右括号的某个值进行比较，看相不相等。相等就继续判断下一个，不等就直接输出false</p>
 <p>优点：<br>1.遍历的过程一次只判断一个字母，速度快一点。<br>2.提前制好了表，即两个set对象和一个map，查找更快。<br>3.用到了栈，巧妙的用后进先出的特点，解决了括号要按同种类型嵌套的问题<br>代码如下：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var isValid = function(s) {</span><br><span class="line">    let stack = [];</span><br><span class="line">    let openSet = new Set(['(', '{', '[']);</span><br><span class="line">    let closeSet = new Set(['}', ']', ')']);</span><br><span class="line">    let bracketMap = new Map([['(', ')'], ['[', ']'], ['{', '}']]); </span><br><span class="line">    for (let c of s) {</span><br><span class="line">        if (openSet.has(c))  {</span><br><span class="line">            stack.push(c);   </span><br><span class="line">        }</span><br><span class="line">        else if (closeSet.has(c)) {</span><br><span class="line">            let temp = stack.pop();</span><br><span class="line">            if (temp === undefined || c !== bracketMap.get(temp)) return false;</span><br><span class="line">        } </span><br><span class="line">    }</span><br><span class="line">    return stack.length === 0;</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure>
-
+<pre><code>var isValid = function(s) &amp;#123;
+    let stack = [];
+    let openSet = new Set(['(', '&amp;#123;', '[']);
+    let closeSet = new Set(['&amp;#125;', ']', ')']);
+    let bracketMap = new Map([['(', ')'], ['[', ']'], ['&amp;#123;', '&amp;#125;']]); 
+    for (let c of s) &amp;#123;
+        if (openSet.has(c))  &amp;#123;
+            stack.push(c);   
+        &amp;#125;
+        else if (closeSet.has(c)) &amp;#123;
+            let temp = stack.pop();
+            if (temp === undefined || c !== bracketMap.get(temp)) return false;
+        &amp;#125; 
+    &amp;#125;
+    return stack.length === 0;
+&amp;#125;;</code></pre>
 <p>新学的知识点：<br>1.Set对象，和map类似，是一组key的集合，但是不存储value，因为key不能重复，所以在Set中没有重复的元素。<br>2.map,是一组键值对的结构，具有极快的查找速度，通过传入的数组的数组建立。通过set(key,value)方法添加元素，通过get(key)来取值。<br>3.栈的push和pop，栈是一种后进先出的数据结构，栈中项的推入和弹出都发生在栈顶。javascript中为数组提供了push()和pop()方法，push()可以接受任意数量的参数，逐个添加到数组的末尾，并返回修改后数组的长度。pop()方法则从数组的末尾弹出最后一项，减少数组的length值，返回弹出的项</p>
 <script>
         document.querySelectorAll('.github-emoji')

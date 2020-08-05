@@ -400,12 +400,46 @@
 <h2 id="题目要求：输入一个字符串，输出其中连续的不重复的最长的子字符串的长度。"><a href="#题目要求：输入一个字符串，输出其中连续的不重复的最长的子字符串的长度。" class="headerlink" title="题目要求：输入一个字符串，输出其中连续的不重复的最长的子字符串的长度。"></a>题目要求：输入一个字符串，输出其中连续的不重复的最长的子字符串的长度。</h2><h4 id="第一次用了滑动窗口的思想"><a href="#第一次用了滑动窗口的思想" class="headerlink" title="第一次用了滑动窗口的思想"></a><strong>第一次用了滑动窗口的思想</strong></h4><p>解题思路：将输入的字符串使用split方法分割成数组，然后使用pop方法将数组尾的字符弹出。再构造一个移动窗口的数组–temp，每弹出一个字符先用变量tail存着，跟窗口–temp对比一下，如果重复了就记下当前temp的长度，和历史的比较留下大的，如果不重复就用push方法，推进窗口数组中。</p>
 <p><strong>代码如下：</strong></p>
 <hr>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">var lengthOfLongestSubstring = function(s) {</span><br><span class="line">    var sArray = s.split('');   //将所给的字符串分成数组</span><br><span class="line">    var sTemp = [];             //缓存移动窗口</span><br><span class="line">    var count = 0;              //返回的数字</span><br><span class="line">    var tail;                   //每次循环数组队尾的字母   </span><br><span class="line">    while(sArray.length&gt;0){     //当字符串数组有值时进行循环</span><br><span class="line">        tail = sArray.pop();     //取出sArray末尾的元素</span><br><span class="line">        for(let i=0;i&lt;sTemp.length;i++){    //取出字符串尾的元素与缓存窗口进行比较</span><br><span class="line">            if(sTemp[i]===tail){            //如果字符重复则进行操作</span><br><span class="line">                count = count&gt;sTemp.length?count:sTemp.length;  //将历史中最大的count与窗口缓存的数组长度进行比较，取其大者</span><br><span class="line">                for(let j=0;j&lt;i+1;j++){     </span><br><span class="line">                    sTemp.shift();          //将重复字符以前的字符弹出数组</span><br><span class="line">                }</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        sTemp.push(tail);                   //缓存移动窗口推入末尾的元素</span><br><span class="line">    }</span><br><span class="line">    count = count&gt;sTemp.length?count:sTemp.length;  //有时传入的字符串本身就是最大的字符串，没有进入循环中的判断，因此最后还要进行赋值</span><br><span class="line">    console.log(count);</span><br><span class="line">    return count;</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure>
+<pre><code>var lengthOfLongestSubstring = function(s) &amp;#123;
+    var sArray = s.split('');   //将所给的字符串分成数组
+    var sTemp = [];             //缓存移动窗口
+    var count = 0;              //返回的数字
+    var tail;                   //每次循环数组队尾的字母   
+    while(sArray.length&gt;0)&amp;#123;     //当字符串数组有值时进行循环
+        tail = sArray.pop();     //取出sArray末尾的元素
+        for(let i=0;i&lt;sTemp.length;i++)&amp;#123;    //取出字符串尾的元素与缓存窗口进行比较
+            if(sTemp[i]===tail)&amp;#123;            //如果字符重复则进行操作
+                count = count&gt;sTemp.length?count:sTemp.length;  //将历史中最大的count与窗口缓存的数组长度进行比较，取其大者
+                for(let j=0;j&lt;i+1;j++)&amp;#123;     
+                    sTemp.shift();          //将重复字符以前的字符弹出数组
+                &amp;#125;
+            &amp;#125;
+        &amp;#125;
+        sTemp.push(tail);                   //缓存移动窗口推入末尾的元素
+    &amp;#125;
+    count = count&gt;sTemp.length?count:sTemp.length;  //有时传入的字符串本身就是最大的字符串，没有进入循环中的判断，因此最后还要进行赋值
+    console.log(count);
+    return count;
+&amp;#125;;</code></pre>
 <hr>
 <p>然后看了一下别人的代码，感觉能写好一点。不需要将传入的s字符串转换为数组，也不需要对s进行操作，只需要每次取出s中的元素进行比较就行了。<strong>s[i]**就可以取出字符串s中第i位的元素。思路是一样的，用滑动窗口进行判断，如果用</strong>temp.indexOf(s[i])<strong>进行判断后，发现这个字符在缓冲区的话，就使用slice方法，给temp重新赋值，从重复的位置的后一个到队尾，重新赋给temp。并记录下最大的长度和历史比较。如果不在缓冲区的话，直接push到缓冲区就好。<br>**代码如下：</strong></p>
 <hr>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var lengthOfLongestSubstring = function(s) {</span><br><span class="line">    var temp = [];</span><br><span class="line">    var maxLength = 0; </span><br><span class="line">    for(var i = 0; i &lt; s.length; i++){</span><br><span class="line">        if(temp.indexOf(s[i]) === -1){</span><br><span class="line">            temp.push(s[i]);</span><br><span class="line">            if(temp.length &gt; maxLength)</span><br><span class="line">                maxLength = temp.length;</span><br><span class="line">        }else{</span><br><span class="line">            temp = temp.slice(temp.indexOf(s[i]) + 1,temp.length);</span><br><span class="line">            temp.push(s[i]);</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    return maxLength;</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure>
+<pre><code>var lengthOfLongestSubstring = function(s) &amp;#123;
+    var temp = [];
+    var maxLength = 0; 
+    for(var i = 0; i &lt; s.length; i++)&amp;#123;
+        if(temp.indexOf(s[i]) === -1)&amp;#123;
+            temp.push(s[i]);
+            if(temp.length &gt; maxLength)
+                maxLength = temp.length;
+        &amp;#125;else&amp;#123;
+            temp = temp.slice(temp.indexOf(s[i]) + 1,temp.length);
+            temp.push(s[i]);
+        &amp;#125;
+    &amp;#125;
 
+    return maxLength;
+&amp;#125;;</code></pre>
 <hr>
 <script>
         document.querySelectorAll('.github-emoji')

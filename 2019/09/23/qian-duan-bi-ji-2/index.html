@@ -670,7 +670,10 @@
                     <div class="summary block-with-text">
                         
                             由一个小问题分析JS的赋值问题问题
-123456var a = {n: 1};var b = a;a.x = a = {n:2};    console.log(a.x);    //输出是undefinedconsole.log(b.x)
+var a = &amp;#123;n: 1&amp;#125;;
+var b = a;
+a.x = a = &amp;#123;n:2&amp;#125;;    
+console.log(a.x); 
                         
                     </div>
                     <div class="publish-info">

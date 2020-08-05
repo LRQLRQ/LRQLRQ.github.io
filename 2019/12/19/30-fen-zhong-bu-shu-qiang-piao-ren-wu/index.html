@@ -412,11 +412,17 @@
 <li>筛选cdn，启动服务</li>
 </ol>
 <p>在修改配置文件的时候，要设置提醒邮箱。当抢到票后会通过邮箱通知。  </p>
-<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">EMAIL_CONF = {</span><br><span class="line">    <span class="string">"IS_MAIL"</span>: True,</span><br><span class="line">    <span class="string">"email"</span>: <span class="string">""</span>,  <span class="comment">//自己的A邮箱，用于发送邮件</span></span><br><span class="line">    <span class="string">"notice_email_list"</span>: <span class="string">""</span>,  <span class="comment">//自己的B邮箱，用于接受邮件</span></span><br><span class="line">    <span class="string">"username"</span>: <span class="string">""</span>, <span class="comment">//A邮箱如果是QQ邮箱，这里填QQ号</span></span><br><span class="line">    <span class="string">"password"</span>: <span class="string">""</span>, <span class="comment">//填授权码，具体操作百度</span></span><br><span class="line">    <span class="string">"host"</span>: <span class="string">"smtp.qq.com"</span>,  <span class="comment">//QQ邮箱就是这个，如果是163邮箱就是smtp.163.com</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
+<pre class=" language-js"><code class="language-js">EMAIL_CONF <span class="token operator">=</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    <span class="token string">"IS_MAIL"</span><span class="token punctuation">:</span> True<span class="token punctuation">,</span>
+    <span class="token string">"email"</span><span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">,</span>  <span class="token comment" spellcheck="true">//自己的A邮箱，用于发送邮件</span>
+    <span class="token string">"notice_email_list"</span><span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">,</span>  <span class="token comment" spellcheck="true">//自己的B邮箱，用于接受邮件</span>
+    <span class="token string">"username"</span><span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//A邮箱如果是QQ邮箱，这里填QQ号</span>
+    <span class="token string">"password"</span><span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//填授权码，具体操作百度</span>
+    <span class="token string">"host"</span><span class="token punctuation">:</span> <span class="token string">"smtp.qq.com"</span><span class="token punctuation">,</span>  <span class="token comment" spellcheck="true">//QQ邮箱就是这个，如果是163邮箱就是smtp.163.com</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span></code></pre>
 <p>依赖安装好后运行如下命令即可：  </p>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python3 run.py c  <span class="comment"># 筛选cdn</span></span><br><span class="line">python3 run.py r  <span class="comment"># 启动任务</span></span><br></pre></td></tr></tbody></table></figure>
-
+<pre class=" language-python"><code class="language-python">python3 run<span class="token punctuation">.</span>py c  <span class="token comment" spellcheck="true"># 筛选cdn</span>
+python3 run<span class="token punctuation">.</span>py r  <span class="token comment" spellcheck="true"># 启动任务</span></code></pre>
 <h4 id="ubuntu18遇到的错误"><a href="#ubuntu18遇到的错误" class="headerlink" title="ubuntu18遇到的错误"></a>ubuntu18遇到的错误</h4><p>可能是有一些cv的库没装好，运行脚本启动任务的时候报错了，查了github的issue有个答案很work。<br>ubuntu 18.04 在执行run的时候有个报错，报错信息如下<br><code>ImportError: libSM.so.6: cannot open shared object file:</code><br>需要安装python-qt4<br>apt install python-qt4  </p>
 <p>确实很管用。运行之后等一会就好了，刚开始会先记录一些验证码。  </p>
 <p><img src="https://github.com/LRQLRQ/picture/blob/master/train_tickets.png?raw=true" alt="avatar">  </p>
@@ -736,7 +742,7 @@
                         
                             前言JS中的六种模式，基本的东西应该掌握。  
 1.原型链继承操作：将子类的原型赋值为父类的一个实例。优点：子类的实例可以继承父类的原型链缺点：所有子类的实例共享一份数据，不能向父类传参。  
-12345678910111213141516
+function superType() &a
                         
                     </div>
                     <div class="publish-info">

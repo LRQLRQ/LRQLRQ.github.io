@@ -403,8 +403,15 @@
 <hr>
 <p>##经典回答##<br>本地过程调用</p>
 <p>RPC就是要像调用本地的函数一样去调远程函数。在研究RPC前，我们先看看本地调用是怎么调的。假设我们要调用函数Multiply来计算lvalue * rvalue的结果:</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1 int Multiply(int l, int r) {</span><br><span class="line">2    int y = l * r;</span><br><span class="line">3    return y;</span><br><span class="line">4 }</span><br><span class="line">5 </span><br><span class="line">6 int lvalue = 10;</span><br><span class="line">7 int rvalue = 20;</span><br><span class="line">8 int l_times_r = Multiply(lvalue, rvalue);</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-
+<pre><code>1 int Multiply(int l, int r) &amp;#123;
+2    int y = l * r;
+3    return y;
+4 &amp;#125;
+5 
+6 int lvalue = 10;
+7 int rvalue = 20;
+8 int l_times_r = Multiply(lvalue, rvalue);
+</code></pre>
 <p>那么在第8行时，我们实际上执行了以下操作：</p>
 <ol>
 <li>将 lvalue 和 rvalue 的值压栈</li>

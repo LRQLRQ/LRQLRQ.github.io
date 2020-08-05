@@ -405,14 +405,26 @@
 <ol>
 <li>merge<br>比如当前开发者在master上执行下列命令  </li>
 </ol>
-<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b dev</span><br><span class="line">echo "this is my test in dev" &gt;&gt; README</span><br><span class="line">git add .</span><br><span class="line">git commit -m 'change README in dev branch'</span><br><span class="line">git checkout master</span><br><span class="line">touch main.js</span><br><span class="line">git add .</span><br><span class="line">git commit -m 'add new file main.js'</span><br><span class="line">git merge dev</span><br></pre></td></tr></tbody></table></figure>
-
+<pre class=" language-shell"><code class="language-shell">git checkout -b dev
+echo "this is my test in dev" >> README
+git add .
+git commit -m 'change README in dev branch'
+git checkout master
+touch main.js
+git add .
+git commit -m 'add new file main.js'
+git merge dev</code></pre>
 <p>以上操作会先建立一个dev分支，在其上修改之后，完成了新功能，想要在master分支上添加新功能。就可以使用merge，将在dev分支添加的功能融合到master中。<br>注意<strong>merge是三方的融合，不只是dev和master的融合</strong>。git会先找到dev的祖先，也就是从master中新建的那个版本A，然后融合修改后的dev分支、A版本、修改后的master版本。最后生成一个新版本B，并让HEAD指针指向B。（HEAD指针总是指向当前的分支）<br><img src="https://git-scm.com/book/en/v2/images/basic-merging-2.png" alt="git merge"></p>
 <ol start="2">
 <li>rebase<br>rebase的功能叫做变基，顾名思义，是要改变其基石，也就是之前的指针。功能上是融合A和B两个分支，实际上是丢弃（比如说）B版本上进行的一些提交，把这些提交当做补丁，在A版本上重新提交一次。但是这是两批不同的提交，所以说是会丢弃。<br>代码如下</li>
 </ol>
-<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b testRebase</span><br><span class="line">echo "this is rebase magic" &gt;&gt; README</span><br><span class="line">git add .</span><br><span class="line">git commit -m 'add sth in README'</span><br><span class="line">git rebase msater</span><br><span class="line">git checkout master</span><br><span class="line">git merge testRebase</span><br></pre></td></tr></tbody></table></figure>
-
+<pre class=" language-shell"><code class="language-shell">git checkout -b testRebase
+echo "this is rebase magic" >> README
+git add .
+git commit -m 'add sth in README'
+git rebase msater
+git checkout master
+git merge testRebase</code></pre>
 <p><img src="https://git-scm.com/book/en/v2/images/basic-rebase-3.png" alt="git rebae"></p>
 <p>如果使用rebase，必须在远程仓库没有的版本（commit后的提交）进行，否则使用了rebase之后会将这些版本，比如A版本丢弃，其他协同开发者的项目可能就是基于A版本的。某人使用rebase后，A版本的内容变基到了别的分支上，内容是一模一样的，但是版本却不同了。其余的开发者就会造成巨大的混乱。<br>这里引用一下git pro的原文：<em>不要对在你的仓库外有副本的分支执行变基。如果你遵循这条金科玉律，就不会出差错。 否则，人民群众会仇恨你，你的朋友和家人也会嘲笑你，唾弃你。</em> 哈哈，虽然搞笑，但是也能看出来乱用rebase的混乱。  </p>
 <h3 id="git-flow思想"><a href="#git-flow思想" class="headerlink" title="git flow思想"></a>git flow思想</h3><p>git flow刚开始我以为是一个软件，也确实下载到了。后来才意识到这是一种思想。使用了git flow之后，越来越觉得以前在项目组开发的时候使用git是多随意，完全就是在master，或者某个特定的分支上进行开发，然后pull、push。实际上这样很不利于项目的维护。下面介绍一下git flow思想。  </p>
@@ -687,7 +699,7 @@
                         
                             问题出现基本上每个人用一个git账号就够了，但如果在github上用一个账号，在某个gitlab上又需要一个账号，在不同的工作场景怎么切换呢？
 切换用户和邮箱使用如下命令可查看当前的用户名和邮箱
-12git config user.name
+git config user.name  
                         
                     </div>
                     <div class="publish-info">

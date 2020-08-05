@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="关于抢票——自己动手，丰衣足食, 欢迎来到，瑞卿的窝。">
+    <meta name="keywords" content="函数柯里化, 欢迎来到，瑞卿的窝。">
     <meta name="description" content="学习的小小笔记，记在这里。">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>关于抢票——自己动手，丰衣足食 | 欢迎来到，瑞卿的窝。</title>
+    <title>函数柯里化 | 欢迎来到，瑞卿的窝。</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -29,7 +29,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.0.0"></head>
+<meta name="generator" content="Hexo 5.0.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -242,12 +242,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">关于抢票——自己动手，丰衣足食</h1>
+                    <h1 class="description center-align post-title">函数柯里化</h1>
                 </div>
             </div>
         </div>
@@ -364,8 +364,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/stuff/">
-                                <span class="chip bg-color">stuff</span>
+                            <a href="/tags/javascript/">
+                                <span class="chip bg-color">javascript</span>
                             </a>
                         
                     </div>
@@ -380,7 +380,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-12-19
+                    2020-08-05
                 </div>
                 
 
@@ -396,32 +396,45 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>因为放假回家前打算去玩一趟，去玩的票已经买好了，回家的票16号刚放出来，就没得了。因为不是首末站，中间站比较难买，所以得一直操心着。用那些抢票软件太烦了，总是让人邀好友助力，上次想去秦皇岛玩，我看有80%的成功率，就没怎么找人助力，一直到最后都没买到票，真是服了。记起来以前github上有大佬写过抢票的脚本，还是自己动手，丰衣足食吧。<br>话不多说，进入正文——  </p>
-<h3 id="一、准备"><a href="#一、准备" class="headerlink" title="一、准备"></a>一、准备</h3><ol>
-<li><p>服务器一台<br>服务器可以使用阿里云或者腾讯云，学生的话10块钱一个月，挺好用的，我的就是阿里云（ubuntu 18）的。  </p>
-</li>
-<li><p>自己的电脑连接服务器<br>然后用自己的电脑ssh连接到服务器，windows可以用xshell，输入root和密码，端口号22就行。mac用户可以使用iterm，写个脚本连接到服务器，具体自行百度。  </p>
-</li>
-<li><p>github搜索12306，下载点赞数最多的那个仓库<br>在github下载这个仓库<code>https://github.com/testerSunshine/12306</code>，建议直接使用自己的电脑下载代码，然后上传到服务器。（Windows建议使用Fileize，mac建议使用Cyberduck）</p>
-</li>
-</ol>
-<h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><p>其实大佬项目的README已经写的很清楚了，我只是把我踩过的坑整理一下。  </p>
-<ol>
-<li>进入到项目，下载相关的依赖。  </li>
-<li>修改相应的配置文件。</li>
-<li>筛选cdn，启动服务</li>
-</ol>
-<p>在修改配置文件的时候，要设置提醒邮箱。当抢到票后会通过邮箱通知。  </p>
-<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">EMAIL_CONF = {</span><br><span class="line">    <span class="string">"IS_MAIL"</span>: True,</span><br><span class="line">    <span class="string">"email"</span>: <span class="string">""</span>,  <span class="comment">//自己的A邮箱，用于发送邮件</span></span><br><span class="line">    <span class="string">"notice_email_list"</span>: <span class="string">""</span>,  <span class="comment">//自己的B邮箱，用于接受邮件</span></span><br><span class="line">    <span class="string">"username"</span>: <span class="string">""</span>, <span class="comment">//A邮箱如果是QQ邮箱，这里填QQ号</span></span><br><span class="line">    <span class="string">"password"</span>: <span class="string">""</span>, <span class="comment">//填授权码，具体操作百度</span></span><br><span class="line">    <span class="string">"host"</span>: <span class="string">"smtp.qq.com"</span>,  <span class="comment">//QQ邮箱就是这个，如果是163邮箱就是smtp.163.com</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+                <h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>柯里化的作用，是将一个有多个输入参数的函数，转换为只有一个输入参数的函数，并返回函数：以同样的方法，处理剩余的参数。  </p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">curry</span><span class="token punctuation">(</span>fn<span class="token punctuation">,</span> <span class="token operator">...</span>args<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span>fn<span class="token punctuation">.</span>length <span class="token operator">></span> args<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 传入参数还未到达</span>
+    <span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token operator">...</span>arguments<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 返回函数</span>
+      <span class="token keyword">return</span> <span class="token function">curry</span><span class="token punctuation">(</span>fn<span class="token punctuation">,</span> <span class="token operator">...</span>args<span class="token punctuation">,</span> <span class="token operator">...</span>arguments<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 递归调用自己</span>
+    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+  <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> <span class="token keyword">else</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token operator">...</span>args<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 符合条件，返回最终函数</span>
+  <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
 
-<p>依赖安装好后运行如下命令即可：  </p>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python3 run.py c  <span class="comment"># 筛选cdn</span></span><br><span class="line">python3 run.py r  <span class="comment"># 启动任务</span></span><br></pre></td></tr></tbody></table></figure>
 
-<h4 id="ubuntu18遇到的错误"><a href="#ubuntu18遇到的错误" class="headerlink" title="ubuntu18遇到的错误"></a>ubuntu18遇到的错误</h4><p>可能是有一些cv的库没装好，运行脚本启动任务的时候报错了，查了github的issue有个答案很work。<br>ubuntu 18.04 在执行run的时候有个报错，报错信息如下<br><code>ImportError: libSM.so.6: cannot open shared object file:</code><br>需要安装python-qt4<br>apt install python-qt4  </p>
-<p>确实很管用。运行之后等一会就好了，刚开始会先记录一些验证码。  </p>
-<p><img src="https://github.com/LRQLRQ/picture/blob/master/train_tickets.png?raw=true" alt="avatar">  </p>
-<p>这是室友抢到候补的图片:<br><img src="https://github.com/LRQLRQ/picture/blob/master/jjTicket.png?raw=true" alt="成功的图片"></p>
-<p>2019.12.19<br>written by LRQ<br>(这次的博客有点没有营养，但是用了大佬的轮子很开心哈哈)</p>
+<span class="token comment" spellcheck="true">// demo</span>
+<span class="token keyword">const</span> add <span class="token operator">=</span> <span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> a <span class="token operator">+</span> b <span class="token operator">+</span> c<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// ①</span>
+<span class="token keyword">const</span> curryAdd <span class="token operator">=</span> <span class="token function">curry</span><span class="token punctuation">(</span>add<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">// ②</span>
+<span class="token function">curryAdd</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 6</span>
+<span class="token function">curryAdd</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 6</span>
+<span class="token function">curryAdd</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 6</span></code></pre>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>看上面的demo代码，第①步，传入的函数有三个参数，而对函数柯里化后，curryAdd传入的参数可以每次传一个，一共传三次；也可以第一次传两个，第二次传一个；只要传递参数总长度是add的总长度即可。<br>第②步，对函数柯里化后，实际上curryAdd的值是一个函数，如下</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token operator">...</span>arguments<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token function">curry</span><span class="token punctuation">(</span>fn<span class="token punctuation">,</span> <span class="token operator">...</span>args<span class="token punctuation">,</span> <span class="token operator">...</span>arguments<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span></code></pre>
+<p>此处的<code>...args</code>是空的，什么都没有，因为curry传入的参数只有一个add函数。<br>当调用到<code>curryAdd(1)(2)(3)</code>时，返回值分别是以下函数</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token operator">...</span>arguments<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token function">curry</span><span class="token punctuation">(</span>fn<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">...</span>arguments<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span><span class="token punctuation">(</span><span class="token operator">...</span>arguments<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token function">curry</span><span class="token punctuation">(</span>fn<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token operator">...</span>arguments<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span><span class="token punctuation">(</span><span class="token operator">...</span>arguments<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token function">curry</span><span class="token punctuation">(</span>fn<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span> <span class="token operator">...</span>arguments<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+<span class="token function">add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>到第三个函数就会返回，此时参数的长度已经和add函数的输入参数对齐，此时调用add函数，返回结果。</p>
+<h3 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h3><p>以前也见过柯里化的一些东西，静不下心去分析。最近看了一些源码，觉得这种函数式编程在js中还是比较常见的。最近看到一篇文章，讲koa的洋葱圈模型，redux的实现，都是类似这种一层包一层的函数，将这些联系起来觉得还好理解一些。  </p>
+<p>written by rain.<br>20.08.04</p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -465,7 +478,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lrqlrq.github.io/2019/12/19/30%E5%88%86%E9%92%9F%E9%83%A8%E7%BD%B2%E6%8A%A2%E7%A5%A8%E4%BB%BB%E5%8A%A1/">https://lrqlrq.github.io/2019/12/19/30%E5%88%86%E9%92%9F%E9%83%A8%E7%BD%B2%E6%8A%A2%E7%A5%A8%E4%BB%BB%E5%8A%A1/</a>
+                    <a href="http://lrqlrq.github.io/2020/08/05/ke-li-hua/">http://lrqlrq.github.io/2020/08/05/ke-li-hua/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -503,8 +516,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/stuff/">
-                                    <span class="chip bg-color">stuff</span>
+                                <a href="/tags/javascript/">
+                                    <span class="chip bg-color">javascript</span>
                                 </a>
                             
                         </div>
@@ -672,30 +685,32 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/12/23/%E9%87%87%E9%9B%86%E5%A4%A9%E6%B0%94%E6%AF%8F%E6%97%A5%E4%B8%80%E5%8F%A5%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">
+                <a href="/2020/08/05/ke-li-hua/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="采集天气每日一句发送邮件">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="函数柯里化">
                         
-                        <span class="card-title">采集天气每日一句发送邮件</span>
+                        <span class="card-title">函数柯里化</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            爬取墨迹天气、一个、有道词典的每日一句，通过server酱发送给相应的微信，发送邮件给相应的用户。微信效果图如下：邮件效果图如下：  
-前言去年刚开始接触node，在网上找到一个每天定时给女朋友发消息的代码，开始用了一段时间，也没好好看代码
+                            概念柯里化的作用，是将一个有多个输入参数的函数，转换为只有一个输入参数的函数，并返回函数：以同样的方法，处理剩余的参数。  
+代码function curry(fn, ...args) &amp;#123;
+  if(fn.length >
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-12-23
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-05
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -704,11 +719,12 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/node/">
-                        <span class="chip bg-color">node</span>
+                    <a href="/tags/javascript/">
+                        <span class="chip bg-color">javascript</span>
                     </a>
                     
                 </div>
@@ -722,26 +738,28 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/12/16/JS%E7%9A%84%E5%85%AD%E7%A7%8D%E7%BB%A7%E6%89%BF%E6%A8%A1%E5%BC%8F/">
+                <a href="/2020/06/19/45-tan-xin/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="JS的六种继承模式">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="45初探贪心">
                         
-                        <span class="card-title">JS的六种继承模式</span>
+                        <span class="card-title">45初探贪心</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            前言JS中的六种模式，基本的东西应该掌握。  
-1.原型链继承操作：将子类的原型赋值为父类的一个实例。优点：子类的实例可以继承父类的原型链缺点：所有子类的实例共享一份数据，不能向父类传参。  
-12345678910111213141516
+                            贪心算法
+第45题
+给一个数组，从头跳到尾，数组内的值代表当前能跳的步数。
+const jump = function(nums) &amp;#123;
+    let maxPosition = 0;    // 未到边界前，下一步能到的
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-12-16
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-19
                             </span>
                         <span class="publish-author">
                             
@@ -754,8 +772,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/js/">
-                        <span class="chip bg-color">js</span>
+                    <a href="/tags/leetcode/">
+                        <span class="chip bg-color">leetcode</span>
                     </a>
                     
                 </div>

@@ -397,8 +397,17 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>今天想在mac上写一个简单的脚本，直接输入简单的命令就能跳转到我的工作目录。搞了大概半个小时终于搞定了。先贴代码，然后说几个关键点。</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">echo "$1"</span><br><span class="line">if [ "$1" = "blog" ]; then</span><br><span class="line">    echo "开始写博客!"</span><br><span class="line">    cd ~/code/stuff/LRQLRQ.github.io/lrq/source/_posts/</span><br><span class="line">elif [ "$1" = "book" ]; then</span><br><span class="line">    echo "看书!"</span><br><span class="line">    cd ~/Documents/研究生涯/books/</span><br><span class="line">else</span><br><span class="line">    echo "wu"</span><br><span class="line">fi</span><br></pre></td></tr></tbody></table></figure>
-
+<pre><code>#!/bin/bash
+echo "$1"
+if [ "$1" = "blog" ]; then
+    echo "开始写博客!"
+    cd ~/code/stuff/LRQLRQ.github.io/lrq/source/_posts/
+elif [ "$1" = "book" ]; then
+    echo "看书!"
+    cd ~/Documents/研究生涯/books/
+else
+    echo "wu"
+fi</code></pre>
 <p>这就是代码，说几个写shell常见的点。</p>
 <ol>
 <li><code>$1</code>表示输入的第一个参数</li>

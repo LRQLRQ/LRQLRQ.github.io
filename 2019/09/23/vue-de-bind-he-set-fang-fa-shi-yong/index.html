@@ -404,20 +404,25 @@
 </ol>
 <h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>这里因为是在for循环里面，每一张图片自带了index这个属性。</p>
 <h4 id="第一个需求"><a href="#第一个需求" class="headerlink" title="第一个需求"></a>第一个需求</h4><p>对于第一个需求，首先在html中使用v-bind绑定class属性，然后设置点击事件，点击之后设置某标志位为当前点击的index，使用三目表达式来判断当前的class中的index是不是点击的index，进而实现显示边框的效果。<br>下面是html代码</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a :class="clickActive==index? 'active':'' "  @click="clickPic(index)"&gt;</span><br></pre></td></tr></tbody></table></figure>
+<pre><code>&lt;a :class="clickActive==index? 'active':'' "  @click="clickPic(index)"&gt;</code></pre>
 <p>下面是js代码</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">clickPic: function(index) {</span><br><span class="line">    this.clickActive = index;     //将全局变量设置为当前点击的下标</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<pre><code>clickPic: function(index) &amp;#123;
+    this.clickActive = index;     //将全局变量设置为当前点击的下标
+&amp;#125;</code></pre>
 <p>其中clickActive是全局变量，用来表示当前点击图片的下标。active是一个类，需要在css中定义这个类的样式。<br>至此第一个需求完成。</p>
 <h4 id="第二个需求"><a href="#第二个需求" class="headerlink" title="第二个需求"></a>第二个需求</h4><p>想要达到一个”记忆”的效果，肯定要设置一个全局的东西，将点击过的东西记录下来。本来是设置了一个数组，点击了某个图片后，在clickPic函数中给数组中设置true。代码如下</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">clickPic: function(index) {</span><br><span class="line">    this.clickActive = index;     //将全局变量设置为当前点击的下标</span><br><span class="line">    this.clickActives[index] = true;    //将点击过的图片index记录</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
+<pre><code>clickPic: function(index) &amp;#123;
+    this.clickActive = index;     //将全局变量设置为当前点击的下标
+    this.clickActives[index] = true;    //将点击过的图片index记录
+&amp;#125;</code></pre>
 <p>然后在显示图片旁边加上标记,代码如下：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;span v-show="clickActives[index]==true"&gt;已点击&lt;/span&gt;</span><br></pre></td></tr></tbody></table></figure>
-
+<pre><code>&lt;span v-show="clickActives[index]==true"&gt;已点击&lt;/span&gt;</code></pre>
 <p>逻辑上没什么问题，但是一直不能成功，在Chrome上看元素也是没有显示，display:none 这样。查了查，试了试别的方法，发现数组布尔值无法监听，看到有一种方法是将数组内设为对象数组，改动对象的属性之后就可以监听到变化。尝试以后发现确实可以，然后思考了一下。</p>
 <h4 id="总结陈词"><a href="#总结陈词" class="headerlink" title="总结陈词"></a>总结陈词</h4><p>归根结底是没有监听到的原因，对于数组中直接放布尔值vue无法监听到，加入将数组内的元素变为对象，实质上还是监听的对象。想要实现监听数组，就需要使用**Vue.set(arr, index, item)**这个方法,代码如下:</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">clickPic: function(index) {</span><br><span class="line">    this.clickActive = index;     //将全局变量设置为当前点击的下标</span><br><span class="line">    Vue.set(this.clickActives, index, true);   //使用vue.set给设置布尔值并监听</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
+<pre><code>clickPic: function(index) &amp;#123;
+    this.clickActive = index;     //将全局变量设置为当前点击的下标
+    Vue.set(this.clickActives, index, true);   //使用vue.set给设置布尔值并监听
+&amp;#125;</code></pre>
 <p>至此，功能实现。</p>
 <p>下面是效果图<br><img src="https://github.com/LRQLRQ/picture/blob/master/vueSet.png?raw=true" alt="avatar"></p>
 <script>
