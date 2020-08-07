@@ -29,7 +29,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.0.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 5.0.0"></head>
 
 
 <body>
@@ -400,8 +400,8 @@
 <blockquote>
 <p>这是引用<br>sss</p>
 </blockquote>
-<pre><code>print("hello!");
-return 0;</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">print("hello!");<br>return 0;<br></code></pre></td></tr></tbody></table></figure>
+
 <hr>
 <p>##1.为什么学习 JavaScript?##<br>JavaScript web 开发人员必须学习的 3 门语言中的一门：</p>
 <p>HTML 定义了网页的内容<br>CSS 描述了网页的布局<br>JavaScript 网页的行为</p>
@@ -435,11 +435,8 @@ return 0;</code></pre>
 <p>###JavaScript 对象###<br>对象由花括号分隔。在括号内部，对象的属性以名称和值对的形式 (name : value) 来定义。属性由逗号分隔：</p>
 <pre><code>var person={firstname:"John", lastname:"Doe", id:5566};</code></pre>
 <p> 等价于</p>
-<pre class=" language-javascript"><code class="language-javascript"> <span class="token keyword">var</span> person<span class="token operator">=</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-    firstname <span class="token punctuation">:</span> <span class="token string">"John"</span><span class="token punctuation">,</span>
-    lastname  <span class="token punctuation">:</span> <span class="token string">"Doe"</span><span class="token punctuation">,</span>
-    id        <span class="token punctuation">:</span>  <span class="token number">5566</span>
- <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token punctuation">;</span></code></pre>
+<figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> person={<br>   firstname : <span class="hljs-string">"John"</span>,<br>   lastname  : <span class="hljs-string">"Doe"</span>,<br>   id        :  <span class="hljs-number">5566</span><br>};<br></code></pre></td></tr></tbody></table></figure>
+
 <p>对象属性有两种寻址方式：</p>
 <ol>
 <li>name=person.lastname;</li>
@@ -468,19 +465,8 @@ return 0;</code></pre>
 <p><img src="https://7n.w3cschool.cn/attachments/image/20160809/1470710031660821.gif" alt="avatar"></p>
 <p>##Throw 语句##<br>throw 语句允许我们创建自定义错误。</p>
 <p>正确的技术术语是：创建或抛出异常（exception）。<br>如果把 throw 与 try 和 catch 一起使用，那么您能够控制程序流，并生成自定义的错误消息。</p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">myFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-    <span class="token keyword">try</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span> 
-        <span class="token keyword">var</span> x<span class="token operator">=</span>document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"demo"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>value<span class="token punctuation">;</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>x<span class="token operator">==</span><span class="token string">""</span><span class="token punctuation">)</span>    <span class="token keyword">throw</span> <span class="token string">"值为空"</span><span class="token punctuation">;</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">isNaN</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token string">"不是数字"</span><span class="token punctuation">;</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>x<span class="token operator">></span><span class="token number">10</span><span class="token punctuation">)</span>     <span class="token keyword">throw</span> <span class="token string">"太大"</span><span class="token punctuation">;</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>x<span class="token operator">&lt;</span><span class="token number">5</span><span class="token punctuation">)</span>      <span class="token keyword">throw</span> <span class="token string">"太小"</span><span class="token punctuation">;</span>
-    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
-    <span class="token keyword">catch</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-        <span class="token keyword">var</span> y<span class="token operator">=</span>document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"mess"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        y<span class="token punctuation">.</span>innerHTML<span class="token operator">=</span><span class="token string">"错误："</span> <span class="token operator">+</span> err <span class="token operator">+</span> <span class="token string">"。"</span><span class="token punctuation">;</span>
-    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
-<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span></code></pre>
+<figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myFunction</span>(<span class="hljs-params"></span>)</span>{<br>    <span class="hljs-keyword">try</span>{ <br>        <span class="hljs-keyword">var</span> x=<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"demo"</span>).value;<br>        <span class="hljs-keyword">if</span>(x==<span class="hljs-string">""</span>)    <span class="hljs-keyword">throw</span> <span class="hljs-string">"值为空"</span>;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">isNaN</span>(x)) <span class="hljs-keyword">throw</span> <span class="hljs-string">"不是数字"</span>;<br>        <span class="hljs-keyword">if</span>(x&gt;<span class="hljs-number">10</span>)     <span class="hljs-keyword">throw</span> <span class="hljs-string">"太大"</span>;<br>        <span class="hljs-keyword">if</span>(x&lt;<span class="hljs-number">5</span>)      <span class="hljs-keyword">throw</span> <span class="hljs-string">"太小"</span>;<br>    }<br>    <span class="hljs-keyword">catch</span>(err){<br>        <span class="hljs-keyword">var</span> y=<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"mess"</span>);<br>        y.innerHTML=<span class="hljs-string">"错误："</span> + err + <span class="hljs-string">"。"</span>;<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
+
 <p>##JavaScript 调试工具##<br>在程序代码中寻找错误叫做代码调试。</p>
 <p>调试很难，但幸运的是，很多浏览器都内置了调试工具。</p>
 <p>内置的调试工具可以开始或关闭，严重的错误信息会发送给用户。</p>
@@ -972,6 +958,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     
 
 </main>
+
 
 
 

@@ -29,7 +29,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.0.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 5.0.0"></head>
 
 
 <body>
@@ -411,11 +411,7 @@
 <hr>
 <p>构造器是一个特殊的方法，<strong>构造器名必须和类名相同</strong>。<br>构造器既不能定义返回值类型，也不能使用void声明构造器没有返回值。如果为构造器定义了返回值类型，或使用void声明构造器没有返回值，编译时不会出错，但是java会把这个所谓的构造器当成方法来处理—它就不是构造器。<br>##<strong>实际构造器是有返回值的，当使用new关键字来调用构造器时，构造器返回该类的实例。</strong>##<br>创建对象的根本途径是构造器</p>
 <hr>
-<pre class=" language-java"><code class="language-java">Person p<span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//使用person类定义一个person类型的变量</span>
-p <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//通过new关键字调用Person类的构造器，返回一个Person的实例，将Person</span>
-
-或者
-Person p <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//定义p变量的同时为p变量赋值</span></code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java">Person p;   <span class="hljs-comment">//使用person类定义一个person类型的变量</span><br>p = <span class="hljs-keyword">new</span> Person();   <span class="hljs-comment">//通过new关键字调用Person类的构造器，返回一个Person的实例，将Person</span><br><br>或者<br>Person p = <span class="hljs-keyword">new</span> Person();    <span class="hljs-comment">//定义p变量的同时为p变量赋值</span><br></code></pre></td></tr></tbody></table></figure>
 <p>Person p = new Person();<br>这行代码创建了一个Person实例，也被称为Person对象，这个Person对象被赋给p变量。<br>在这行代码实际产生了两个东西，一个是p变量，一个是Person对象。<br>程序中定义的Person类型的变量实际上是一个引用，它存放在栈内存中，指向实际的Person对象。而真正的Person对象则存放在堆（heap）内存中。</p>
 <hr>
 <p>栈内存里的引用变量并未真正存储对象的成员变量，对象的成员变量数据实际存放在堆内存里；而引用变量只是指向该堆内存里的对象。从这个角度看，引用变量与C语言里的指针很像，他们都是存储一个地址值，通过这个地址来引用到实际对象。实际上，Java里的引用就是C里的指针。<br>p引用变量本事只存储了一个地址值，并未包含任何实际数据。但它指向实际的Person对象，当访问p引用变量的成员变量和方法时，实际上是访问p所引用对象的成员变量和方法。</p>
@@ -892,6 +888,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     
 
 </main>
+
 
 
 

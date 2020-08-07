@@ -29,7 +29,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.0.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 5.0.0"></head>
 
 
 <body>
@@ -404,43 +404,13 @@
 </ul>
 <ul>
 <li><p>Entyr:<strong>代码的入口</strong>，说自己import了什么，require了什么。可以在这里直接或者间接找到依赖。<strong>打包的入口</strong>,可以是一个或者是多个。如下代码所示：</p>
-<pre><code>module.export = &amp;#123;
-  entry: &amp;#123;
-      index: ['index.js', '&lt;a href=""&gt;&lt;/a&gt;p.js'],
-      vender: 'vender.js'
-  &amp;#125;
-&amp;#125;</code></pre>
-</li>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">module.export = {<br>    entry: {<br>        index: ['index.js', '&lt;a href=""&gt;&lt;/a&gt;p.js'],<br>        vender: 'vender.js'<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure></li>
 <li><p>Output:打包的输出。webpack会提供给我们一下变量，比如name、hash ，代码中的name就分别代表entry中的index和vendor,hash是打包中出现的独一无二的码</p>
-<pre><code>modules.exports = &amp;#123;
-  entry: &amp;#123;
-      index: 'index.js',
-      vendor: 'vendor.js'
-  &amp;#125;,
-  output: &amp;#123;
-      filename: '[name].min.[hash:5].js'
-  &amp;#125;,
-&amp;#125;</code></pre>
-</li>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">modules.exports = {<br>    entry: {<br>        index: 'index.js',<br>        vendor: 'vendor.js'<br>    },<br>    output: {<br>        filename: '[name].min.[hash:5].js'<br>    },<br>}<br></code></pre></td></tr></tbody></table></figure></li>
 <li><p>Loaders，用来处理其他文件，将文件转化为模块。可以将css文件变为js中的一个模块，变为依赖引入进来。如下代码，在module中加入rules，rules是一个数组，也就是可以设置很多loaders，设置它的loader是css-loader。<br>常用的loader：<strong>编译相关</strong>：babel-loader、ts-loader。<strong>样式相关</strong>：style-loader、css-loader…<strong>文件相关</strong>：file-loader、url-loader</p>
-<pre><code>module.exports = &amp;#123;
-  module: &amp;#123;
-      rules: [
-          &amp;#123;
-              test: /\.css$/,
-              use: 'css-loader'
-          &amp;#125;
-      ]
-  &amp;#125;
-&amp;#125;</code></pre>
-</li>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">module.exports = {<br>    module: {<br>        rules: [<br>            {<br>                test: /\.css$/,<br>                use: 'css-loader'<br>            }<br>        ]<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure></li>
 <li><p>Plugins的作用<strong>参与打包整个过程，打包优化和压缩，配置编译时的变量。</strong><br>常用的Plugins有<strong>优化相关的</strong>：CommonsChunkPlugin，UglifyJsPlugin，<strong>功能相关的</strong>：HtmlWebpackPlugin、HotModuleReplacementPlugin</p>
-<pre><code>const webpack = require('webpack');
-module.exports = &amp;#123;
-  plugins: [
-      new webpack.optimize.UglifyJsPlugin()
-  ]
-&amp;#125;</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">const webpack = require('webpack');<br>module.exports = {<br>    plugins: [<br>        new webpack.optimize.UglifyJsPlugin()<br>    ]<br>}<br></code></pre></td></tr></tbody></table></figure>
 </li>
 <li><p>名词<br>Chunk：代码块<br>Bundle：已经被打包后的代码<br>Module：模块。通过loaders处理后，把文件转变为模块，把图片、css处理，变为模块。</p>
 </li>
@@ -911,6 +881,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     
 
 </main>
+
 
 
 

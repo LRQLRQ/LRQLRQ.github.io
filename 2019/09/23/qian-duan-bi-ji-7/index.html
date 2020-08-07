@@ -29,7 +29,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.0.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 5.0.0"></head>
 
 
 <body>
@@ -403,9 +403,7 @@
 <li>而js中的数据修改之后，怎么反映到dom元素中呢?这里用到了数据劫持。非常细节的底层现在我也还不是很懂，但大概的流程基本知道了。首先在初始化数据的时候要使用Object.defineProperty()方法重写数据的set和get方法，在实际的使用中，给数据赋值实际上就是调用了set方法，这样就可以在set方法中进行一些操作，比如说把set后的value直接写到前端的页面中，进而达到js中数据改变关联到前端页面同步改变的效果。</li>
 </ol>
 <h3 id="v-model的语法糖"><a href="#v-model的语法糖" class="headerlink" title="v-model的语法糖"></a>v-model的语法糖</h3><p>v-model相当于是一个语法糖，比如以下代码</p>
-<pre><code>&lt;input type="text" v-model="suger"&gt;
-
-&lt;input type="text" v-bind:value="suger"  v-on:input="$event.target.value"&gt;</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">&lt;input type="text" v-model="suger"&gt;<br><br>&lt;input type="text" v-bind:value="suger"  v-on:input="$event.target.value"&gt;<br></code></pre></td></tr></tbody></table></figure>
 <p>这两段代码产生的效果是一样的，这就是语法糖的意思。</p>
 <h3 id="需要进一步了解的东西"><a href="#需要进一步了解的东西" class="headerlink" title="需要进一步了解的东西"></a>需要进一步了解的东西</h3><p>看了很多博客，说是在数据劫持中使用了发布者订阅者模式，具体的看了一些还是不太清晰，日后再好好看一下，再回来补充。</p>
 <script>
@@ -869,6 +867,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     
 
 </main>
+
 
 
 

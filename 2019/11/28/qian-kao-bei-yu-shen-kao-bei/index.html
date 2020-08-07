@@ -29,7 +29,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.0.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 5.0.0"></head>
 
 
 <body>
@@ -405,63 +405,25 @@
 <p>如果是深拷贝的话，源对象的属性中有对象的话，目标对象中会生成一个新的对象，而不会共用同一个引用。目标对象会生成一个新的对象，引用和对象的内容，栈和堆中都会分别生成一个新的内容。  </p>
 <hr>
 <h3 id="浅拷贝的方法"><a href="#浅拷贝的方法" class="headerlink" title="浅拷贝的方法"></a>浅拷贝的方法</h3><ol>
-<li>使用Object.assign()，会通过浅拷贝生成一个新的对象。<pre><code>var obj = Object.assign(&amp;#123;&amp;#125;, src);</code></pre>
-</li>
-<li><pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">shallowCopy</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
- <span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span><span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
- <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> key <span class="token keyword">in</span> src<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-     obj<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> src<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">;</span>
- <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
- <span class="token keyword">return</span> obj<span class="token punctuation">;</span>
-<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span></code></pre>
+<li>使用Object.assign()，会通过浅拷贝生成一个新的对象。<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">var obj = Object.assign({}, src);<br></code></pre></td></tr></tbody></table></figure></li>
+<li><figure class="highlight js"><table><tbody><tr><td class="code"><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">shallowCopy</span>(<span class="hljs-params">src</span>) </span>{<br>    <span class="hljs-keyword">var</span> obj = {};<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> src) {<br>        obj[key] = src[key];<br>    }<br>    <span class="hljs-keyword">return</span> obj;<br>}<br></code></pre></td></tr></tbody></table></figure>
+
 </li>
 </ol>
 <hr>
 <h3 id="深拷贝的方法"><a href="#深拷贝的方法" class="headerlink" title="深拷贝的方法"></a>深拷贝的方法</h3><ol>
 <li><p>将对象转换为json字符串，再反解析回来。但是对于对象中的function对象、正则表达式对象无法复制。而且会丢失对象的原型链，新生成的对象的constructor都会变为object。  </p>
-<pre><code>var src = &amp;#123;
- name: "lrq",
- age: 18,
- hobbies: &amp;#123;
-     sing: "songs",
-     play: "football"
- &amp;#125;
-&amp;#125;
-var obj = JSON.parse(JSON.stringify(src))</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">var src = {<br>    name: "lrq",<br>    age: 18,<br>    hobbies: {<br>        sing: "songs",<br>        play: "football"<br>    }<br>}<br>var obj = JSON.parse(JSON.stringify(src))<br></code></pre></td></tr></tbody></table></figure>
 </li>
 <li><p>递归操作,可以将源对象中的对象和数组进行复制</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">deepClone</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-<span class="token keyword">var</span> obj <span class="token operator">=</span> src<span class="token punctuation">.</span>constructor<span class="token operator">===</span>Array<span class="token operator">?</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span><span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
-<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> key <span class="token keyword">in</span> src<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-   <span class="token keyword">if</span><span class="token punctuation">(</span>src<span class="token punctuation">.</span><span class="token function">hasOwnProperty</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-       <span class="token keyword">if</span><span class="token punctuation">(</span>src<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> <span class="token keyword">typeof</span> src<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token operator">==</span><span class="token string">'object'</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-           obj<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> src<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">.</span>constructor<span class="token operator">===</span>Array<span class="token operator">?</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span><span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
-           obj<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">deepClone</span><span class="token punctuation">(</span>src<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-       <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> <span class="token keyword">else</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-           obj<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> src<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">;</span>
-       <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
-   <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
-<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
-<span class="token keyword">return</span> obj<span class="token punctuation">;</span>
-<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span></code></pre>
+<figure class="highlight js"><table><tbody><tr><td class="code"><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">deepClone</span>(<span class="hljs-params">src</span>) </span>{<br>  <span class="hljs-keyword">var</span> obj = src.constructor===<span class="hljs-built_in">Array</span>?[]:{};<br>  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> src) {<br>      <span class="hljs-keyword">if</span>(src.hasOwnProperty(key)) {<br>          <span class="hljs-keyword">if</span>(src[key] &amp;&amp; <span class="hljs-keyword">typeof</span> src[key]==<span class="hljs-string">'object'</span>) {<br>              obj[key] = src[key].constructor===<span class="hljs-built_in">Array</span>?[]:{};<br>              obj[key] = deepClone(src[key]);<br>          } <span class="hljs-keyword">else</span> {<br>              obj[key] = src[key];<br>          }<br>      }<br>  }<br>  <span class="hljs-keyword">return</span> obj;<br>}<br></code></pre></td></tr></tbody></table></figure>
+
 </li>
 </ol>
 <hr>
 <h2 id="重大更新"><a href="#重大更新" class="headerlink" title="重大更新"></a>重大更新</h2><p>找到一种新的便捷方法来应对obj是数组或者对象，同时也对正则和日期对象有了处理。<br>如下：  </p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">deepClone</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span> map<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">WeakMap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>obj<span class="token operator">===</span><span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>obj <span class="token keyword">instanceof</span> <span class="token class-name">RegExp</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">RegExp</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//是正则对象则直接new一个正则对象</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>obj <span class="token keyword">instanceof</span> <span class="token class-name">Date</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>       <span class="token comment" spellcheck="true">//是Date对象则直接new一个Date对象</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> obj <span class="token operator">!==</span> <span class="token string">'object'</span><span class="token punctuation">)</span> <span class="token keyword">return</span> obj<span class="token punctuation">;</span>             <span class="token comment" spellcheck="true">//基本类型值则直接返回</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>map<span class="token punctuation">.</span><span class="token function">has</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> map<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>               <span class="token comment" spellcheck="true">//如果map里面有，则直接返回，防止自身引用无限调用</span>
+<figure class="highlight js"><table><tbody><tr><td class="code"><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">deepClone</span>(<span class="hljs-params">obj, map=new WeakMap()</span>) </span>{<br>    <span class="hljs-keyword">if</span>(obj===<span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    <span class="hljs-keyword">if</span>(obj <span class="hljs-keyword">instanceof</span> <span class="hljs-built_in">RegExp</span>) <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(obj);   <span class="hljs-comment">//是正则对象则直接new一个正则对象</span><br>    <span class="hljs-keyword">if</span>(obj <span class="hljs-keyword">instanceof</span> <span class="hljs-built_in">Date</span>) <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(obj);       <span class="hljs-comment">//是Date对象则直接new一个Date对象</span><br>    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> obj !== <span class="hljs-string">'object'</span>) <span class="hljs-keyword">return</span> obj;             <span class="hljs-comment">//基本类型值则直接返回</span><br>    <span class="hljs-keyword">if</span>(map.has(obj)) <span class="hljs-keyword">return</span> map.get(obj);               <span class="hljs-comment">//如果map里面有，则直接返回，防止自身引用无限调用</span><br><br>    <span class="hljs-keyword">let</span> ret = <span class="hljs-keyword">new</span> obj.constructor();        <span class="hljs-comment">//管你是数组还是对象，直接上构造函数</span><br>    map.set(obj, ret);                      <span class="hljs-comment">//放入map中</span><br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> obj) {<br>        ret[key] = deepClone(obj[key], map);    <span class="hljs-comment">//对每个属性都进行深拷贝</span><br>    }<br>    <span class="hljs-keyword">return</span> ret;<br>}<br></code></pre></td></tr></tbody></table></figure>
 
-    <span class="token keyword">let</span> ret <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">obj<span class="token punctuation">.</span>constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token comment" spellcheck="true">//管你是数组还是对象，直接上构造函数</span>
-    map<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span> ret<span class="token punctuation">)</span><span class="token punctuation">;</span>                      <span class="token comment" spellcheck="true">//放入map中</span>
-    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> key <span class="token keyword">in</span> obj<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-        ret<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">deepClone</span><span class="token punctuation">(</span>obj<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">,</span> map<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//对每个属性都进行深拷贝</span>
-    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> ret<span class="token punctuation">;</span>
-<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span></code></pre>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -930,6 +892,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     
 
 </main>
+
 
 
 

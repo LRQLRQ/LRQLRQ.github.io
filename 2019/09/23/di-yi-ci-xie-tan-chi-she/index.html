@@ -29,7 +29,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.0.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 5.0.0"></head>
 
 
 <body>
@@ -409,34 +409,11 @@
 </ol>
 <h4 id="学到的一些小东西"><a href="#学到的一些小东西" class="headerlink" title="学到的一些小东西"></a>学到的一些小东西</h4><hr>
 <p>在js中，有一个东西叫做定时器，和单片机里面的定时器几乎是同样的东西。相当于定一个时间间隔，每过多少时间，就执行一次函数里面的代码。<br>比如：</p>
-<pre><code>var timer = setInterval(function()&amp;#123;
-    context.clearRect(0, 0, canvas.width, canvas.height);  //清除已经画的蛇
-    food.draw();    //画出食物矩形
-    snake.move();    //蛇身进行移动，相当于在脑海中想象蛇应该在的位置
-    snake.draw();    //调用draw函数，把蛇的矩形画到画布上
-&amp;#125;,100)</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">var timer = setInterval(function(){<br>    context.clearRect(0, 0, canvas.width, canvas.height);  //清除已经画的蛇<br>    food.draw();    //画出食物矩形<br>    snake.move();    //蛇身进行移动，相当于在脑海中想象蛇应该在的位置<br>    snake.draw();    //调用draw函数，把蛇的矩形画到画布上<br>},100)<br></code></pre></td></tr></tbody></table></figure>
 <hr>
 <h2 id="在随机生成食物的时候，想要生成在【0-480】之内的，20倍数的随机数，可以先生成一个【0-24】内的随机整数，然后再给这个整数乘以20，就可以达到效果了。"><a href="#在随机生成食物的时候，想要生成在【0-480】之内的，20倍数的随机数，可以先生成一个【0-24】内的随机整数，然后再给这个整数乘以20，就可以达到效果了。" class="headerlink" title="在随机生成食物的时候，想要生成在【0-480】之内的，20倍数的随机数，可以先生成一个【0-24】内的随机整数，然后再给这个整数乘以20，就可以达到效果了。"></a>在随机生成食物的时候，想要生成在【0-480】之内的，20倍数的随机数，可以先生成一个【0-24】内的随机整数，然后再给这个整数乘以20，就可以达到效果了。</h2><p>判断蛇移动方向，需要设置按键监听事件。这个也是类似定时器一样，在后台自动就监听，感觉类似于外部中断。<br>具体代码如下：</p>
-<pre><code>document.onkeydown = function(e)&amp;#123;
-    var ev = e || window.event;   //防止事件冲突
-    switch(ev.keyCode)&amp;#123;        //判断按键的键值是什么
-        case 37:    //按键为左
-            do()...;
-            break;
-        case 38:    //上
-            do()...;
-            break;
-        case 39:    //右
-            do()...;
-            break;
-        case 40:    //下
-            do()...;    
-            break;
-        default:
-            break;
-    &amp;#125;
-&amp;#125;
-</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">document.onkeydown = function(e){<br>    var ev = e || window.event;   //防止事件冲突<br>    switch(ev.keyCode){        //判断按键的键值是什么<br>        case 37:    //按键为左<br>            do()...;<br>            break;<br>        case 38:    //上<br>            do()...;<br>            break;<br>        case 39:    //右<br>            do()...;<br>            break;<br>        case 40:    //下<br>            do()...;    <br>            break;<br>        default:<br>            break;<br>    }<br>}<br><br></code></pre></td></tr></tbody></table></figure>
+
 <hr>
 <h4 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h4><p>这次小项目只是一个单机版的贪吃蛇，锻炼了js的能力，学习到了js的很多基础知识，已经发布到github上了，还加了背景音乐，配了图，有机会可以去玩一玩。嘿嘿~~<br><a target="_blank" rel="noopener" href="https://lrqwriting.top/snakeGame">https://lrqwriting.top/snakeGame</a></p>
 <script>
@@ -706,10 +683,7 @@
                     <div class="summary block-with-text">
                         
                             今天想在mac上写一个简单的脚本，直接输入简单的命令就能跳转到我的工作目录。搞了大概半个小时终于搞定了。先贴代码，然后说几个关键点。
-#!/bin/bash
-echo "$1"
-if [ "$1" = "blog" ]; then
-    
+#!/bin/bashecho "$1"if [ "$1" = "blog" ]; then    ech
                         
                     </div>
                     <div class="publish-info">
@@ -910,6 +884,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     
 
 </main>
+
 
 
 

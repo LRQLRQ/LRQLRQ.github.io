@@ -29,7 +29,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.0.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 5.0.0"></head>
 
 
 <body>
@@ -413,29 +413,10 @@
 <h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><p>作用域是一套规则，用于确定在何处以及如何查找变量。如果查找的目的是对变量进行赋值，那么就会使用LHS查询；如果目的是获取变量的值，就会使用RHS查询。</p>
 <h3 id="2-词法作用域"><a href="#2-词法作用域" class="headerlink" title="2.词法作用域"></a>2.词法作用域</h3><p>全局变量会自动成为全局对象（比如浏览器中的window对象）的属性，因此可以不直接通过全局对象的词法名称，而是间接的通过对全局对象的属性的引用来对其进行访问。比如<code>window.a</code> 通过这种技术可以访问那些被同名变量所遮盖的全局变量。但是非全局的变量如果被遮蔽了，无论如何都无法被访问到。</p>
 <h4 id="欺骗词法"><a href="#欺骗词法" class="headerlink" title="欺骗词法"></a>欺骗词法</h4><h5 id="（1）eval"><a href="#（1）eval" class="headerlink" title="（1）eval"></a>（1）eval</h5><p>JavaScript中的<code>eval(...)</code>函数可以接收一个字符串为参数，并将其中的内容视为好像在书写时就存在于程序中这个位置的代码。即：可以在你写的代码中用程序生成代码，并运行，就好像代码是写在那个位置的一样。  </p>
-<pre><code>function foo(str, a) &amp;#123;
-    eval(str);  //此处就是欺骗
-    console.log(a,b);
-&amp;#125;
-var b = 2;
-foo("var b = 3", 1);    // 1, 3</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">function foo(str, a) {<br>    eval(str);  //此处就是欺骗<br>    console.log(a,b);<br>}<br>var b = 2;<br>foo("var b = 3", 1);    // 1, 3<br></code></pre></td></tr></tbody></table></figure>
 <p><code>eval(...)</code>调用中的<code>var b = 3</code>这段代码会被当做本来就在那里一样来处理。由于那段代码声明了一个新的变量b，因此它对已经存在的<code>foo(...)</code>的词法作用域进行了修改。<br>在严格模式中，<code>eval(...)</code>在运行时有其自己的词法作用域，意味着其中的声明无法修改所在的作用域。<br>在程序中动态生成代码的使用场景非常罕见，因为它所带来的好处无法抵消性能上损失。</p>
 <h5 id="（2）with"><a href="#（2）with" class="headerlink" title="（2）with"></a>（2）with</h5><p>with通常被当做重复引用同一个对象中的多个属性的快捷方式，可以<strong>不需要</strong>重复引用对象本身。</p>
-<pre><code>var obj = &amp;#123;
-    a: 1,
-    b: 2,
-    c: 3
-&amp;#125;
-//way1:
-obj.a = 2;
-obj.b = 3;
-obj.c = 4;
-//way2:
-with(obj) &amp;#123;
-    a = 2;
-    b = 3;
-    c = 4;
-&amp;#125;</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">var obj = {<br>    a: 1,<br>    b: 2,<br>    c: 3<br>}<br>//way1:<br>obj.a = 2;<br>obj.b = 3;<br>obj.c = 4;<br>//way2:<br>with(obj) {<br>    a = 2;<br>    b = 3;<br>    c = 4;<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>with块可以将一个对象处理为词法作用域，但是这个块内部正常的var声明并不会被限制在这个块的作用域中，而是被添加到with所处的函数作用域中。<br><code>eval(...)</code>和<code>with</code>会被严格模式所影响，<code>with</code>被完全禁止，间接或非安全的使用<code>eval(...)</code>也被禁止了。  </p>
 <h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>词法作用域意味着作用域是由书写代码时，函数声明的位置来决定的。编译的词法分析阶段基本能够知道全部标识符在哪里以及是如何声明的，从而能够预测在执行过程中如何对它们进行查找。<br>JavaScript中有两个机制可以“欺骗”词法作用域：<code>eval(...)</code>和<code>with</code>。前者可以对一段包含一个或多个声明的“代码”字符串进行演算，并借此来修改已经存在的词法作用域（在运行时）。后者本质是通过将一个对象的引用当做作用域来处理，将对象的属性当做作用域中的标识符来处理，从而创建了一个新的词法作用域（同样是在运行时）。<br>这个两个机制的副作用是引擎无法在编译时对作用域查找进行优化，因为引擎只能谨慎的认为这样的优化是无效的。使用这其中任何一个机制都将导致代码运行变慢。<strong>因此不要使用他们！！</strong></p>
 <h3 id="3-函数作用域和块作用"><a href="#3-函数作用域和块作用" class="headerlink" title="3.函数作用域和块作用"></a>3.函数作用域和块作用</h3><p>函数作用域的含义是指，属于这个函数的全部变量都可以在整个函数的范围内使用及复用（事实上在嵌套的作用域中也可以使用）。这种设计方案是非常有用的，能充分利用JavaScript变量可以根据需要改变值类型的“动态”特性。<br><strong>tips</strong>：从所写的代码中挑选出一个任意的片段，然后用函数声明对它进行包装，实际上就是把这些代码“隐藏”起来了。<br><strong>最小特权原则（最小授权最小暴露原则）</strong>：这个原则是指在软件设计中，应该最小限度地暴露必要内容，而将其他内容都“隐藏”起来，比如某个模块或对象的API设计。  </p>
@@ -443,23 +424,12 @@ with(obj) &amp;#123;
 <h5 id="全局命名空间："><a href="#全局命名空间：" class="headerlink" title="全局命名空间："></a>全局命名空间：</h5><p>当程序中加载了多个第三方库时，如果它们没有妥善地将内部私有的函数或变量隐藏起来，就会很容易引发冲突。这些库通常会在全局作用域中声明一个名字足够独特的变量，通常是一个对象。这个对象被用作库的<strong>命名空间</strong>，所有需要暴露给外界的功能都会成为这个对象（命名空间）的属性，而不是将自己的标识符暴露在顶级的词法作用域中。  </p>
 <h5 id="函数声明与函数表达式"><a href="#函数声明与函数表达式" class="headerlink" title="函数声明与函数表达式"></a>函数声明与函数表达式</h5><p>区分函数声明和表达式最简单的方法是看function关键字出现在声明中的位置，（不仅仅是一行代码，而是整个声明中位置）。如果function是声明中的第一个词，那么就是一个函数声明，否则就是一个函数表达式。<br>函数声明和函数表达式之间最重要的区别是他们的名称标识符将会绑定在何处。<br>函数表达式可以是匿名的，而函数声明则不可以省略函数名——在JavaScript的语法中这是非法的。<br>匿名函数在栈追踪中不会显示出有意义的函数名，使得调试很困难。</p>
 <p>立即执行函数表达式(IIFE)：</p>
-<pre><code>1. (function foo() &amp;#123; .. &amp;#125;)()
-2. (function foo() &amp;#123; .. &amp;#125;())</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">1. (function foo() { .. })()<br>2. (function foo() { .. }())<br></code></pre></td></tr></tbody></table></figure>
 <p>IIFE一个非常普遍的进阶用法是把它们当做函数调用并传递参数进去。</p>
-<pre><code>var a = 2;
-(function IIFE( global ) &amp;#123;
-    var a = 3;
-    console.log( a );           //3
-    console.log( global.a );    //2
-&amp;#125;)( window );</code></pre>
-<pre><code>有趣的undefined
-undefined = true;
-(function IIFE(undefined) &amp;#123;
-    var a;
-    if(a === undefined) &amp;#123;
-        concole.log("undefined 在这里不是true哦");
-    &amp;#125;
-&amp;#125;)();</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">var a = 2;<br>(function IIFE( global ) {<br>    var a = 3;<br>    console.log( a );           //3<br>    console.log( global.a );    //2<br>})( window );<br></code></pre></td></tr></tbody></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">有趣的undefined<br>undefined = true;<br>(function IIFE(undefined) {<br>    var a;<br>    if(a === undefined) {<br>        concole.log("undefined 在这里不是true哦");<br>    }<br>})();<br></code></pre></td></tr></tbody></table></figure>
+
+
 <p>方法论=建模=从各个维度分析，一件事情，一个问题，从不同的角度去分析。</p>
 <script>
         document.querySelectorAll('.github-emoji')
@@ -728,12 +698,8 @@ undefined = true;
                     <div class="summary block-with-text">
                         
                             块级作用域先说一段代码
-var foo = true;
-if(foo) &amp;#123;
-    var bar = foo * 2;
-    console.log(bar);
-&amp;#125;
-console.log(bar);
+var foo = true;if(foo) {    var bar = foo * 2;    console.log(bar);}console.log(bar);
+上述代码会输出什么呢？我一直以为第一个con
                         
                     </div>
                     <div class="publish-info">
@@ -940,6 +906,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     
 
 </main>
+
 
 
 

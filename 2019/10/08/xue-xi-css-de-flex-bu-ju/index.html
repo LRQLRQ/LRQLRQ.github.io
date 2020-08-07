@@ -29,7 +29,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.0.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 5.0.0"></head>
 
 
 <body>
@@ -398,13 +398,9 @@
             <div id="articleContent">
                 <p>今天看了阮一峰的博客，算是差不多了解了flex弹性布局。手过一遍，把课后习题也顺带做了一做，感觉差不多会用了。<br>感觉最常用的应该就是<code>justify-content</code>主轴方向的布局；和<code>align-items</code>交叉轴方向的布局。灵活配合使用，应该布局问题就比较好解决了。</p>
 <h3 id="Flex是什么"><a href="#Flex是什么" class="headerlink" title="Flex是什么"></a>Flex是什么</h3><p>Flex是Flex Box的缩写，意为”弹性布局”，用来为盒状模型提供最大的灵活性。<br>任何一个容器都可以指定为Flex。</p>
-<pre class=" language-css"><code class="language-css"><span class="token number">.</span>box &amp;<span class="token hexcode">#123</span><span class="token punctuation">;</span>
-    <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
-&amp;<span class="token hexcode">#125</span><span class="token punctuation">;</span></code></pre>
+<figure class="highlight css"><table><tbody><tr><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.box</span> {<br>    <span class="hljs-attribute">display</span>: flex;<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>行内元素也可以使用Flex布局。</p>
-<pre class=" language-css"><code class="language-css"><span class="token number">.</span>box &amp;<span class="token hexcode">#123</span><span class="token punctuation">;</span>
-    <span class="token property">display</span><span class="token punctuation">:</span> inline-flex<span class="token punctuation">;</span>
-&amp;<span class="token hexcode">#125</span><span class="token punctuation">;</span></code></pre>
+<figure class="highlight css"><table><tbody><tr><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.box</span> {<br>    <span class="hljs-attribute">display</span>: inline-flex;<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p><strong>ATTENTION</strong>：设为Flex之后，子元素的<code>float</code>、<code>clear</code>、和<code>vertical-align</code>属性将失效。  </p>
 <h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>采用Flex布局的元素，称为Flex容器。它的所有子元素自动成为容器成员，称为Flex项目(flex items).<br><img src="https://github.com/LRQLRQ/picture/blob/master/flex%E5%9B%BE%E8%A7%A3.png?raw=true" alt="avatar"></p>
 <p>容器默认有两根轴，水平的主轴(main axis)和垂直的交叉轴(cross axis)。主轴的开始位置(与边框的交叉点)叫做<code>main start</code>，结束位置叫做<code>main end</code>；交叉轴的开始位置叫做<code>cross start</code>，结束位置叫做<code>cross end</code>。项目默认沿着主轴排列，单个项目占据的主轴空间叫做<code>main size</code>，占据的交叉轴空间叫做<code>cross size</code>。  </p>
@@ -419,13 +415,10 @@
 </ul>
 <hr>
 <h4 id="1-flex-direction属性"><a href="#1-flex-direction属性" class="headerlink" title="1.flex-direction属性"></a>1.flex-direction属性</h4><p>这个属性决定主轴的方向，即项目排列的方向。有以下四种选择，顾名思义。</p>
-<pre class=" language-css"><code class="language-css"><span class="token number">.</span>box &amp;<span class="token hexcode">#123</span><span class="token punctuation">;</span>
-    <span class="token property">flex-direction</span><span class="token punctuation">:</span> row | row-reverse | column | column-reverse<span class="token punctuation">;</span>
-&amp;<span class="token hexcode">#125</span><span class="token punctuation">;</span></code></pre>
+<figure class="highlight css"><table><tbody><tr><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.box</span> {<br>    <span class="hljs-attribute">flex-direction</span>: row | row-reverse | column | column-reverse;<br>}<br></code></pre></td></tr></tbody></table></figure>
+
 <h4 id="2-flex-wrap属性"><a href="#2-flex-wrap属性" class="headerlink" title="2.flex-wrap属性"></a>2.flex-wrap属性</h4><p>默认情况下，项目都排在一条线上，(又称轴线)，如果一条轴线排不下该如何换行。<br>它可能取三个值:</p>
-<pre class=" language-css"><code class="language-css"><span class="token number">.</span>box &amp;<span class="token hexcode">#123</span><span class="token punctuation">;</span>
-    <span class="token property">flex-wrap</span><span class="token punctuation">:</span> nowrap | wrap | wrap-reverse<span class="token punctuation">;</span>
-&amp;<span class="token hexcode">#125</span><span class="token punctuation">;</span></code></pre>
+<figure class="highlight css"><table><tbody><tr><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.box</span> {<br>    <span class="hljs-attribute">flex-wrap</span>: nowrap | wrap | wrap-reverse;<br>}<br></code></pre></td></tr></tbody></table></figure>
 <ol>
 <li>nowrap(默认) 不换行<br>虽然项目不会换行，但是会被压缩到一行。不会保持原来的宽度值。  </li>
 <li>wrap:换行，第一行在上方</li>
@@ -433,9 +426,7 @@
 </ol>
 <h3 id="3-flex-flow"><a href="#3-flex-flow" class="headerlink" title="3.flex-flow"></a>3.flex-flow</h3><p>这个属性是<code>flex-direction</code>属性和<code>flex-wrap</code>属性的简写形式。默认值为<code>row nowrap</code>。</p>
 <h4 id="4-justify-content属性-重点"><a href="#4-justify-content属性-重点" class="headerlink" title="4.justify-content属性(重点)"></a>4.justify-content属性(重点)</h4><p><code>justify-content</code>属性定义了项目在主轴上的对齐方式。  </p>
-<pre class=" language-css"><code class="language-css"><span class="token number">.</span>box &amp;<span class="token hexcode">#123</span><span class="token punctuation">;</span>
-    <span class="token property">justify-content</span><span class="token punctuation">:</span> flex-start | flex-end | center | space-between | space-around<span class="token punctuation">;</span>
-&amp;<span class="token hexcode">#125</span><span class="token punctuation">;</span></code></pre>
+<figure class="highlight css"><table><tbody><tr><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.box</span> {<br>    <span class="hljs-attribute">justify-content</span>: flex-start | flex-end | center | space-between | space-around;<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>它可能取5个值，具体对齐方式与主轴的方向有关， 假设主轴方向为从左到右。  </p>
 <ul>
 <li>flex-start(默认值): 左对齐</li>
@@ -445,9 +436,7 @@
 <li>space-around: 每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍。  </li>
 </ul>
 <h4 id="5-align-items属性"><a href="#5-align-items属性" class="headerlink" title="5.align-items属性"></a>5.align-items属性</h4><p>此属性定义了项目在交叉轴上如何对齐。  </p>
-<pre class=" language-css"><code class="language-css"><span class="token number">.</span>box &amp;<span class="token hexcode">#123</span><span class="token punctuation">;</span>
-    <span class="token property">align-items</span><span class="token punctuation">:</span> flex-start | flex-end | center | baseline | stretch<span class="token punctuation">;</span>
-&amp;<span class="token hexcode">#125</span><span class="token punctuation">;</span></code></pre>
+<figure class="highlight css"><table><tbody><tr><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.box</span> {<br>    <span class="hljs-attribute">align-items</span>: flex-start | flex-end | center | baseline | stretch;<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>它可能取5个值，具体的对齐方式与交叉轴的方向有关，假设交叉轴从上到下。</p>
 <ul>
 <li>flex-start: 交叉轴的起点对齐。</li>
@@ -457,9 +446,7 @@
 <li>stretch(默认值): 如果项目未设置高度或者设为auto，将占满整个容器的高度，</li>
 </ul>
 <h4 id="6-align-content属性"><a href="#6-align-content属性" class="headerlink" title="6.align-content属性"></a>6.align-content属性</h4><p><code>align-content</code>属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。  </p>
-<pre class=" language-css"><code class="language-css"><span class="token number">.</span>box &amp;<span class="token hexcode">#123</span><span class="token punctuation">;</span>
-    <span class="token property">align-content</span><span class="token punctuation">:</span> flex-start | flex-end | center | space-between | space-around | stretch<span class="token punctuation">;</span>
-&amp;<span class="token hexcode">#125</span><span class="token punctuation">;</span></code></pre>
+<figure class="highlight css"><table><tbody><tr><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.box</span> {<br>    <span class="hljs-attribute">align-content</span>: flex-start | flex-end | center | space-between | space-around | stretch;<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>这个属性可能取6个值:  </p>
 <ul>
 <li>flex-start：与交叉轴的起点对齐。</li>
@@ -799,10 +786,7 @@
                     <div class="summary block-with-text">
                         
                             今天想在mac上写一个简单的脚本，直接输入简单的命令就能跳转到我的工作目录。搞了大概半个小时终于搞定了。先贴代码，然后说几个关键点。
-#!/bin/bash
-echo "$1"
-if [ "$1" = "blog" ]; then
-    
+#!/bin/bashecho "$1"if [ "$1" = "blog" ]; then    ech
                         
                     </div>
                     <div class="publish-info">
@@ -958,6 +942,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     
 
 </main>
+
 
 
 

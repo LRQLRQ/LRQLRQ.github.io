@@ -29,7 +29,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.0.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 5.0.0"></head>
 
 
 <body>
@@ -407,59 +407,8 @@
 </ol>
 <hr>
 <p>节流和防抖差不多，看到一个有意思的理解：<br><strong>防抖</strong>：不冷静的决定，最后一次才能一锤定音。<br><strong>节流</strong>：技能的cd，要间隔一段时间才能再次使用。<br>下面是防抖和节流的代码：</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> debounce <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>fn<span class="token punctuation">,</span> delay<span class="token operator">=</span><span class="token number">200</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-    <span class="token keyword">let</span> timer<span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-        <span class="token keyword">let</span> context <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
-        <span class="token keyword">let</span> args <span class="token operator">=</span> arguments<span class="token punctuation">;</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>timer<span class="token punctuation">)</span> <span class="token function">clearTimeout</span><span class="token punctuation">(</span>timer<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        timer <span class="token operator">=</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=</span><span class="token operator">></span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-            fn<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            timer <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
-        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token punctuation">,</span> delay<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
-<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<figure class="highlight js"><table><tbody><tr><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> debounce = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">fn, delay=<span class="hljs-number">200</span></span>) </span>{<br>    <span class="hljs-keyword">let</span> timer;<br>    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{<br>        <span class="hljs-keyword">let</span> context = <span class="hljs-built_in">this</span>;<br>        <span class="hljs-keyword">let</span> args = <span class="hljs-built_in">arguments</span>;<br>        <span class="hljs-keyword">if</span>(timer) <span class="hljs-built_in">clearTimeout</span>(timer);<br>        timer = <span class="hljs-built_in">setTimeout</span>( <span class="hljs-function">()=&gt;</span>{<br>            fn.call(context, args);<br>            timer = <span class="hljs-literal">null</span>;<br>        }, delay);<br>    }<br>}<br><br><span class="hljs-keyword">var</span> fn1 = debounce( <span class="hljs-function">()=&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"I am here!"</span>), <span class="hljs-number">500</span>);<br><br><span class="hljs-keyword">for</span>( <span class="hljs-keyword">let</span> i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">100</span>; i++) {<br>    fn1();<br>}<br><br><br><span class="hljs-comment">//时间戳版本</span><br><span class="hljs-keyword">var</span> throttle = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">fn, delay</span>) </span>{<br>    <span class="hljs-keyword">let</span> lastTime = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{<br>        <span class="hljs-keyword">let</span> now = Data.now();<br>        <span class="hljs-keyword">let</span> context = <span class="hljs-built_in">this</span>;<br>        <span class="hljs-keyword">let</span> args = <span class="hljs-built_in">arguments</span>;<br>        <span class="hljs-keyword">if</span>(now - lastTime &gt; delay) {<br>            fn.call(context, args);<br>            lastTime = Data.now();<br>        }<br>    }<br>}<br><br><span class="hljs-keyword">var</span> fn2 = throttle(<span class="hljs-function">()=&gt;</span>{<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"This is 节流函数"</span>)}, <span class="hljs-number">1000</span>);<br>fn2();<br><br><br><span class="hljs-comment">//定时器版本，但是要等定时器设置的时间才可以运行第一次</span><br><span class="hljs-keyword">var</span> throttle2 = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">fn, delay</span>) </span>{<br>    <span class="hljs-keyword">let</span> timer;<br>    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{<br>        <span class="hljs-keyword">let</span> context = <span class="hljs-built_in">this</span>;<br>        <span class="hljs-keyword">let</span> args = <span class="hljs-built_in">arguments</span>;<br>        <span class="hljs-keyword">if</span>(!timer) {<br>            timer = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {<br>                        fn.call(context, args);<br>                        timer = <span class="hljs-literal">null</span>;<br>                    }, delay);<br>        }<br>    }<br>}<br><br></code></pre></td></tr></tbody></table></figure>
 
-<span class="token keyword">var</span> fn1 <span class="token operator">=</span> <span class="token function">debounce</span><span class="token punctuation">(</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"I am here!"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">for</span><span class="token punctuation">(</span> <span class="token keyword">let</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span><span class="token number">100</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-    <span class="token function">fn1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
-
-
-<span class="token comment" spellcheck="true">//时间戳版本</span>
-<span class="token keyword">var</span> throttle <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>fn<span class="token punctuation">,</span> delay<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-    <span class="token keyword">let</span> lastTime <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-        <span class="token keyword">let</span> now <span class="token operator">=</span> Data<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">let</span> context <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
-        <span class="token keyword">let</span> args <span class="token operator">=</span> arguments<span class="token punctuation">;</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>now <span class="token operator">-</span> lastTime <span class="token operator">></span> delay<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-            fn<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            lastTime <span class="token operator">=</span> Data<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
-    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
-<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
-
-<span class="token keyword">var</span> fn2 <span class="token operator">=</span> <span class="token function">throttle</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=</span><span class="token operator">></span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"This is 节流函数"</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">fn2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-
-<span class="token comment" spellcheck="true">//定时器版本，但是要等定时器设置的时间才可以运行第一次</span>
-<span class="token keyword">var</span> throttle2 <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>fn<span class="token punctuation">,</span> delay<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-    <span class="token keyword">let</span> timer<span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-        <span class="token keyword">let</span> context <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
-        <span class="token keyword">let</span> args <span class="token operator">=</span> arguments<span class="token punctuation">;</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>timer<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-            timer <span class="token operator">=</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-                        fn<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
-                        timer <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
-                    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token punctuation">,</span> delay<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
-    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
-<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
-</code></pre>
 <p>以上就是我对于防抖和节流的理解了，今晚想要试着跑第一次半马~</p>
 <p>2019.10.18  written by: LRQ</p>
 <script>
@@ -929,6 +878,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     
 
 </main>
+
 
 
 

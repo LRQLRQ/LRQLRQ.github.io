@@ -29,7 +29,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.0.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 5.0.0"></head>
 
 
 <body>
@@ -398,27 +398,22 @@
             <div id="articleContent">
                 <h3 id="问题出现"><a href="#问题出现" class="headerlink" title="问题出现"></a>问题出现</h3><p>基本上每个人用一个git账号就够了，但如果在github上用一个账号，在某个gitlab上又需要一个账号，在不同的工作场景怎么切换呢？</p>
 <h3 id="切换用户和邮箱"><a href="#切换用户和邮箱" class="headerlink" title="切换用户和邮箱"></a>切换用户和邮箱</h3><p>使用如下命令可查看当前的用户名和邮箱</p>
-<pre><code>git config user.name   //查看用户名
-git config user.email  //查看邮箱</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">git config user.name   //查看用户名<br>git config user.email  //查看邮箱<br></code></pre></td></tr></tbody></table></figure>
 <p>如果是使用https方式clone文件的话，可以直接需改邮箱即可。</p>
-<pre><code>git config --global user.email "youremail@111.com"</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">git config --global user.email "youremail@111.com"<br></code></pre></td></tr></tbody></table></figure>
+
 <h3 id="增加秘钥"><a href="#增加秘钥" class="headerlink" title="增加秘钥"></a>增加秘钥</h3><p>修改邮箱的话，每次都要修改，可以添加配置文件，增加一个秘钥，同时需要在github或者相应的gitlab上添加相应的公钥。</p>
 <ol>
 <li>在<code>~/.ssh/</code>目录下，新建config文件</li>
-<li>生成相应的秘钥<pre><code>ssh-keygen -t rsa -C "rain@163.com"   //这里要填你github相应的邮箱</code></pre>
-</li>
+<li>生成相应的秘钥<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">ssh-keygen -t rsa -C "rain@163.com"   //这里要填你github相应的邮箱<br></code></pre></td></tr></tbody></table></figure></li>
 <li>在文件内填写Host和IdentityFile配置如下</li>
 </ol>
-<pre><code>HostName git-github
-Host github.com www.github.com
-User LRQ
-IdentityFile ~/.ssh/id_rsa
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">HostName git-github<br>Host github.com www.github.com<br>User LRQ<br>IdentityFile ~/.ssh/id_rsa<br><br>Host gongsi.com<br>IdentityFile ~/.ssh/gongsi_id_rsa<br></code></pre></td></tr></tbody></table></figure>
 
-Host gongsi.com
-IdentityFile ~/.ssh/gongsi_id_rsa</code></pre>
 <p>Host是仓库网站的别名，随意取<br>HostName是仓库网站的域名<br>User是仓库网站上的用户名<br>IdentityFile是私钥的绝对路径  </p>
 <h3 id="文件夹递归处理问题"><a href="#文件夹递归处理问题" class="headerlink" title="文件夹递归处理问题"></a>文件夹递归处理问题</h3><p>至此就结束了。<br>今天还遇到一个问题，干脆也写出来。在使用npm安装包的时候，有时候会出现没有access访问权限，是因为默认的新建的文件夹都是没有写权限的，给文件夹加上写权限即可</p>
-<pre><code>chmod -R 755 /folder</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">chmod -R 755 /folder<br></code></pre></td></tr></tbody></table></figure>
+
 <p>-R就是目录下的所有文件</p>
 <hr>
 <p>2020.2.14<br>written by Rain</p>
@@ -894,6 +889,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     
 
 </main>
+
 
 
 

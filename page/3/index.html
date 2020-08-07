@@ -29,7 +29,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.0.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 5.0.0"></head>
 
 
 <body>
@@ -440,10 +440,7 @@
                         <div class="summary block-with-text">
                             
                                 由一个小问题分析JS的赋值问题问题
-var a = &amp;#123;n: 1&amp;#125;;
-var b = a;
-a.x = a = &amp;#123;n:2&amp;#125;;    
-console.log(a.x); 
+var a = {n: 1};var b = a;a.x = a = {n:2};    console.log(a.x);    //输出是undefinedconsole.log(b.x);    /
                             
                         </div>
                         <div class="publish-info">
@@ -709,8 +706,7 @@ AO对象默认初始化arguments对象，存有函数形参。
                             
                                 不变性
 
-对象常量结合writable:false 和configurable:false就可以创建一个真正的常量属性(不可修改、重定义或删除)var myObject = &amp;#123;&amp;#125;;
-Object.defi
+对象常量结合writable:false 和configurable:false就可以创建一个真正的常量属性(不可修改、重定义或删除)var myObject = {};Object.defineProperty( myObjec
                             
                         </div>
                         <div class="publish-info">
@@ -754,12 +750,8 @@ Object.defi
                         <div class="summary block-with-text">
                             
                                 块级作用域先说一段代码
-var foo = true;
-if(foo) &amp;#123;
-    var bar = foo * 2;
-    console.log(bar);
-&amp;#125;
-console.log(bar);
+var foo = true;if(foo) {    var bar = foo * 2;    console.log(bar);}console.log(bar);
+上述代码会输出什么呢？我一直以为第一个con
                             
                         </div>
                         <div class="publish-info">

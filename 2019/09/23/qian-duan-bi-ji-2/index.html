@@ -29,7 +29,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.0.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 5.0.0"></head>
 
 
 <body>
@@ -670,10 +670,7 @@
                     <div class="summary block-with-text">
                         
                             由一个小问题分析JS的赋值问题问题
-var a = &amp;#123;n: 1&amp;#125;;
-var b = a;
-a.x = a = &amp;#123;n:2&amp;#125;;    
-console.log(a.x); 
+var a = {n: 1};var b = a;a.x = a = {n:2};    console.log(a.x);    //输出是undefinedconsole.log(b.x);    /
                         
                     </div>
                     <div class="publish-info">
@@ -875,6 +872,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     
 
 </main>
+
 
 
 

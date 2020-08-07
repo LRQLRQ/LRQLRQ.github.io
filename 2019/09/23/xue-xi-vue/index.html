@@ -29,7 +29,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.0.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 5.0.0"></head>
 
 
 <body>
@@ -401,202 +401,57 @@
 <p>Vue 只关注视图层， 采用自底向上增量开发的设计。</p>
 <p>Vue 的目标是通过尽可能简单的 API 实现响应的数据绑定和组合的视图组件。</p>
 <p>第一段vue代码示例</p>
-<pre><code>&lt;div id="vue_det"&gt;
-    &lt;h1&gt;site : &amp;#123;&amp;#123;site&amp;#125;&amp;#125;&lt;/h1&gt;
-    &lt;h1&gt;url : &amp;#123;&amp;#123;url&amp;#125;&amp;#125;&lt;/h1&gt;
-    &lt;h1&gt;&amp;#123;&amp;#123;details()&amp;#125;&amp;#125;&lt;/h1&gt;
-&lt;/div&gt;
-&lt;script type="text/javascript"&gt;
-    var vm = new Vue(&amp;#123;
-        el: '#vue_det',
-        data: &amp;#123;
-            site: "菜鸟教程",
-            url: "www.runoob.com",
-            alexa: "10000"
-        &amp;#125;,
-        methods: &amp;#123;
-            details: function() &amp;#123;
-                return  this.site + " - 学的不仅是技术，更是梦想！";
-            &amp;#125;
-        &amp;#125;
-    &amp;#125;)
-&lt;/script&gt;</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">&lt;div id="vue_det"&gt;<br>    &lt;h1&gt;site : {{site}}&lt;/h1&gt;<br>    &lt;h1&gt;url : {{url}}&lt;/h1&gt;<br>    &lt;h1&gt;{{details()}}&lt;/h1&gt;<br>&lt;/div&gt;<br>&lt;script type="text/javascript"&gt;<br>    var vm = new Vue({<br>        el: '#vue_det',<br>        data: {<br>            site: "菜鸟教程",<br>            url: "www.runoob.com",<br>            alexa: "10000"<br>        },<br>        methods: {<br>            details: function() {<br>                return  this.site + " - 学的不仅是技术，更是梦想！";<br>            }<br>        }<br>    })<br>&lt;/script&gt;<br></code></pre></td></tr></tbody></table></figure>
+
+
 <p>可以看到在 Vue 构造器中有一个el 参数，它是 DOM 元素中的 id。在上面实例中 id 为 vue_det，在 div 元素中：</p>
-<pre><code>&lt;div id = "vue_det"&gt;&lt;/div&gt;</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">&lt;div id = "vue_det"&gt;&lt;/div&gt;<br></code></pre></td></tr></tbody></table></figure>
 <h4 id="这意味着我们接下来的改动全部在以上指定的-div-内，div-外部不受影响。"><a href="#这意味着我们接下来的改动全部在以上指定的-div-内，div-外部不受影响。" class="headerlink" title="这意味着我们接下来的改动全部在以上指定的 div 内，div 外部不受影响。"></a><b>这意味着我们接下来的改动全部在以上指定的 div 内，div 外部不受影响。</b></h4><p>接下来我们看看如何定义数据对象。</p>
 <p>data 用于定义属性，实例中有三个属性分别为：site、url、alexa。</p>
 <p>methods 用于定义的函数，可以通过 return 来返回函数值。</p>
 <p>用于输出对象属性和函数返回值。</p>
-<h4 id="当一个-Vue-实例被创建时，它向-Vue-的响应式系统中加入了其-data-对象中能找到的所有的属性。当这些属性的值发生改变时，html-视图将也会产生相应的变化"><a href="#当一个-Vue-实例被创建时，它向-Vue-的响应式系统中加入了其-data-对象中能找到的所有的属性。当这些属性的值发生改变时，html-视图将也会产生相应的变化" class="headerlink" title="当一个 Vue 实例被创建时，它向 Vue 的响应式系统中加入了其 data 对象中能找到的所有的属性。当这些属性的值发生改变时，html 视图将也会产生相应的变化"></a><b>当一个 Vue 实例被创建时，它向 Vue 的响应式系统中加入了其 data 对象中能找到的所有的属性。当这些属性的值发生改变时，html 视图将也会产生相应的变化</b></h4><pre><code>&lt;div id="vue_det"&gt;
-    &lt;h1&gt;site : &amp;#123;&amp;#123;site&amp;#125;&amp;#125;&lt;/h1&gt;
-    &lt;h1&gt;url : &amp;#123;&amp;#123;url&amp;#125;&amp;#125;&lt;/h1&gt;
-    &lt;h1&gt;Alexa : &amp;#123;&amp;#123;alexa&amp;#125;&amp;#125;&lt;/h1&gt;
-&lt;/div&gt;
-&lt;script type="text/javascript"&gt;
-// 我们的数据对象
-var data = &amp;#123; site: "菜鸟教程", url: "www.runoob.com", alexa: 10000&amp;#125;
-var vm = new Vue(&amp;#123;
-    el: '#vue_det',
-    data: data
-&amp;#125;)
-// 它们引用相同的对象！
-document.write(vm.site === data.site) // true
-document.write("&lt;br&gt;")
-// 设置属性也会影响到原始数据
-vm.site = "Runoob"
-document.write(data.site + "&lt;br&gt;") // Runoob
+<h4 id="当一个-Vue-实例被创建时，它向-Vue-的响应式系统中加入了其-data-对象中能找到的所有的属性。当这些属性的值发生改变时，html-视图将也会产生相应的变化"><a href="#当一个-Vue-实例被创建时，它向-Vue-的响应式系统中加入了其-data-对象中能找到的所有的属性。当这些属性的值发生改变时，html-视图将也会产生相应的变化" class="headerlink" title="当一个 Vue 实例被创建时，它向 Vue 的响应式系统中加入了其 data 对象中能找到的所有的属性。当这些属性的值发生改变时，html 视图将也会产生相应的变化"></a><b>当一个 Vue 实例被创建时，它向 Vue 的响应式系统中加入了其 data 对象中能找到的所有的属性。当这些属性的值发生改变时，html 视图将也会产生相应的变化</b></h4><figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">&lt;div id="vue_det"&gt;<br>    &lt;h1&gt;site : {{site}}&lt;/h1&gt;<br>    &lt;h1&gt;url : {{url}}&lt;/h1&gt;<br>    &lt;h1&gt;Alexa : {{alexa}}&lt;/h1&gt;<br>&lt;/div&gt;<br>&lt;script type="text/javascript"&gt;<br>// 我们的数据对象<br>var data = { site: "菜鸟教程", url: "www.runoob.com", alexa: 10000}<br>var vm = new Vue({<br>    el: '#vue_det',<br>    data: data<br>})<br>// 它们引用相同的对象！<br>document.write(vm.site === data.site) // true<br>document.write("&lt;br&gt;")<br>// 设置属性也会影响到原始数据<br>vm.site = "Runoob"<br>document.write(data.site + "&lt;br&gt;") // Runoob<br> <br>// ……反之亦然<br>data.alexa = 1234<br>document.write(vm.alexa) // 1234<br>&lt;/script&gt;<br><br></code></pre></td></tr></tbody></table></figure>
 
-// ……反之亦然
-data.alexa = 1234
-document.write(vm.alexa) // 1234
-&lt;/script&gt;
-</code></pre>
 <h2 id="Vue-js-模板语法"><a href="#Vue-js-模板语法" class="headerlink" title="Vue.js 模板语法"></a>Vue.js 模板语法</h2><p>Vue.js 使用了基于 HTML 的模版语法，允许开发者声明式地将 DOM 绑定至底层 Vue 实例的数据。</p>
 <p>Vue.js 的核心是一个允许你采用简洁的模板语法来声明式的将数据渲染进 DOM 的系统。</p>
 <p>结合响应系统，在应用状态改变时， Vue 能够智能地计算出重新渲染组件的最小代价并应用到 DOM 操作上。</p>
 <ol>
-<li>插值<br><b>文本</b><br>数据绑定最常见的形式就是使用<pre><code>&amp;#123;&amp;#123;...&amp;#125;&amp;#125;（双大括号）</code></pre>
+<li>插值<br><b>文本</b><br>数据绑定最常见的形式就是使用<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">{{...}}（双大括号）<br></code></pre></td></tr></tbody></table></figure>
 的文本插值：</li>
 </ol>
-<pre><code>&lt;div id="app"&gt;
-  &lt;p&gt;&amp;#123;&amp;#123; message &amp;#125;&amp;#125;&lt;/p&gt;
-&lt;/div&gt;</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">&lt;div id="app"&gt;<br>  &lt;p&gt;{{ message }}&lt;/p&gt;<br>&lt;/div&gt;<br></code></pre></td></tr></tbody></table></figure>
+
 <p><b>Html</b><br>使用 v-html 指令用于输出 html 代码：</p>
 <h4 id="指令"><a href="#指令" class="headerlink" title="指令"></a><b>指令</b></h4><p>指令是带有 v- 前缀的特殊属性。</p>
 <p>指令用于在表达式的值改变时，将某些行为应用到 DOM 上。</p>
-<pre><code>&lt;div id="app"&gt;
-    &lt;p v-if="seen"&gt;现在你看到我了&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;script&gt;
-new Vue(&amp;#123;
-  el: '#app',
-  data: &amp;#123;
-    seen: true
-  &amp;#125;
-&amp;#125;)
-&lt;/script&gt;</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">&lt;div id="app"&gt;<br>    &lt;p v-if="seen"&gt;现在你看到我了&lt;/p&gt;<br>&lt;/div&gt;<br>    <br>&lt;script&gt;<br>new Vue({<br>  el: '#app',<br>  data: {<br>    seen: true<br>  }<br>})<br>&lt;/script&gt;<br></code></pre></td></tr></tbody></table></figure>
 <p>新建一个vue对象，用el名绑定div中的id，那么在这个id为xxx的div块中，就可以使用其元素相应的数据。</p>
 <h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><p>参数在指令后以冒号指明。例如， v-bind 指令被用来响应地更新 HTML 属性</p>
-<pre><code>&lt;div id="app"&gt;
-    &lt;pre&gt;&lt;a v-bind:href="url"&gt;菜鸟教程&lt;/a&gt;&lt;/pre&gt;
-&lt;/div&gt;
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">&lt;div id="app"&gt;<br>    &lt;pre&gt;&lt;a v-bind:href="url"&gt;菜鸟教程&lt;/a&gt;&lt;/pre&gt;<br>&lt;/div&gt;<br>    <br>&lt;script&gt;<br>new Vue({<br>  el: '#app',<br>  data: {<br>    url: 'http://www.runoob.com'<br>  }<br>})<br>&lt;/script&gt;<br></code></pre></td></tr></tbody></table></figure>
 
-&lt;script&gt;
-new Vue(&amp;#123;
-  el: '#app',
-  data: &amp;#123;
-    url: 'http://www.runoob.com'
-  &amp;#125;
-&amp;#125;)
-&lt;/script&gt;</code></pre>
+
+
 <h4 id="用户输入"><a href="#用户输入" class="headerlink" title="用户输入"></a>用户输入</h4><p>在 input 输入框中我们可以使用 v-model 指令来实现双向数据绑定：</p>
-<pre><code>&lt;div id="app"&gt;
-    &lt;p&gt;&amp;#123;&amp;#123; message &amp;#125;&amp;#125;&lt;/p&gt;
-    &lt;input v-model="message"&gt;
-&lt;/div&gt;
-
-&lt;script&gt;
-new Vue(&amp;#123;
-  el: '#app',
-  data: &amp;#123;
-    message: 'Runoob!'
-  &amp;#125;
-&amp;#125;)
-&lt;/script&gt;</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">&lt;div id="app"&gt;<br>    &lt;p&gt;{{ message }}&lt;/p&gt;<br>    &lt;input v-model="message"&gt;<br>&lt;/div&gt;<br>    <br>&lt;script&gt;<br>new Vue({<br>  el: '#app',<br>  data: {<br>    message: 'Runoob!'<br>  }<br>})<br>&lt;/script&gt;<br></code></pre></td></tr></tbody></table></figure>
 <p>v-model 指令用来在 input、select、text、checkbox、radio 等表单控件元素上创建双向数据绑定，根据表单上的值，自动更新绑定的元素的值。</p>
 <p>按钮的事件我们可以使用 v-on 监听事件，并对用户的输入进行响应。</p>
 <p>Vue.js 允许你自定义过滤器，被用作一些常见的文本格式化。由”管道符”指示, 格式如下：</p>
-<pre><code>&lt;!-- 在两个大括号中 --&gt;
-&amp;#123;&amp;#123; message | capitalize &amp;#125;&amp;#125;
-
-&lt;!-- 在 v-bind 指令中 --&gt;
-&lt;div v-bind:id="rawId | formatId"&gt;&lt;/div&gt;
-&lt;!-- 在两个大括号中 --&gt;
-&amp;#123;&amp;#123; message | capitalize &amp;#125;&amp;#125;
-
-&lt;!-- 在 v-bind 指令中 --&gt;
-&lt;div v-bind:id="rawId | formatId"&gt;&lt;/div&gt;</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">&lt;!-- 在两个大括号中 --&gt;<br>{{ message | capitalize }}<br><br>&lt;!-- 在 v-bind 指令中 --&gt;<br>&lt;div v-bind:id="rawId | formatId"&gt;&lt;/div&gt;<br>&lt;!-- 在两个大括号中 --&gt;<br>{{ message | capitalize }}<br><br>&lt;!-- 在 v-bind 指令中 --&gt;<br>&lt;div v-bind:id="rawId | formatId"&gt;&lt;/div&gt;<br></code></pre></td></tr></tbody></table></figure>
 <p>过滤器函数接受表达式的值作为第一个参数。</p>
 <p>以下实例对输入的字符串第一个字母转为大写：</p>
-<pre><code>&lt;div id="app"&gt;
-  &amp;#123;&amp;#123; message | capitalize &amp;#125;&amp;#125;
-&lt;/div&gt;
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">&lt;div id="app"&gt;<br>  {{ message | capitalize }}<br>&lt;/div&gt;<br>    <br>&lt;script&gt;<br>new Vue({<br>  el: '#app',<br>  data: {<br>    message: 'runoob'<br>  },<br>  filters: {<br>    capitalize: function (value) {<br>      if (!value) return ''<br>      value = value.toString()<br>      return value.charAt(0).toUpperCase() + value.slice(1)<br>    }<br>  }<br>})<br>&lt;/script&gt;<br></code></pre></td></tr></tbody></table></figure>
 
-&lt;script&gt;
-new Vue(&amp;#123;
-  el: '#app',
-  data: &amp;#123;
-    message: 'runoob'
-  &amp;#125;,
-  filters: &amp;#123;
-    capitalize: function (value) &amp;#123;
-      if (!value) return ''
-      value = value.toString()
-      return value.charAt(0).toUpperCase() + value.slice(1)
-    &amp;#125;
-  &amp;#125;
-&amp;#125;)
-&lt;/script&gt;</code></pre>
-<h3 id="缩写"><a href="#缩写" class="headerlink" title="缩写"></a>缩写</h3><h4 id="v-bind-缩写"><a href="#v-bind-缩写" class="headerlink" title="v-bind 缩写"></a>v-bind 缩写</h4><pre><code>&lt;!-- 完整语法 --&gt;
-&lt;a v-bind:href="url"&gt;&lt;/a&gt;
-&lt;!-- 缩写 --&gt;
-&lt;a :href="url"&gt;&lt;/a&gt;</code></pre>
+<h3 id="缩写"><a href="#缩写" class="headerlink" title="缩写"></a>缩写</h3><h4 id="v-bind-缩写"><a href="#v-bind-缩写" class="headerlink" title="v-bind 缩写"></a>v-bind 缩写</h4><figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">&lt;!-- 完整语法 --&gt;<br>&lt;a v-bind:href="url"&gt;&lt;/a&gt;<br>&lt;!-- 缩写 --&gt;<br>&lt;a :href="url"&gt;&lt;/a&gt;<br></code></pre></td></tr></tbody></table></figure>
 <h4 id="v-bind"><a href="#v-bind" class="headerlink" title="v-bind"></a>v-bind</h4><p>操作元素的 class 列表和内联样式是数据绑定的一个常见需求。因为它们都是属性，所以我们可以用 v-bind 处理它们：只需要通过表达式计算出字符串结果即可。不过，字符串拼接麻烦且易错。因此，在将 v-bind 用于 class 和 style 时，Vue.js 做了专门的增强。表达式结果的类型除了字符串之外，还可以是对象或数组。</p>
-<h4 id="v-on-缩写"><a href="#v-on-缩写" class="headerlink" title="v-on 缩写"></a>v-on 缩写</h4><pre><code>&lt;!-- 完整语法 --&gt;
-&lt;a v-on:click="doSomething"&gt;&lt;/a&gt;
-&lt;!-- 缩写 --&gt;
-&lt;a @click="doSomething"&gt;&lt;/a&gt;</code></pre>
-<h3 id="Vue-js-条件与循环"><a href="#Vue-js-条件与循环" class="headerlink" title="Vue.js 条件与循环"></a>Vue.js 条件与循环</h3><pre><code>&lt;div id="app"&gt;
-    &lt;div v-if="type === 'A'"&gt;
-      A
-    &lt;/div&gt;
-    &lt;div v-else-if="type === 'B'"&gt;
-      B
-    &lt;/div&gt;
-    &lt;div v-else-if="type === 'C'"&gt;
-      C
-    &lt;/div&gt;
-    &lt;div v-else&gt;
-      Not A/B/C
-    &lt;/div&gt;
-&lt;/div&gt;
+<h4 id="v-on-缩写"><a href="#v-on-缩写" class="headerlink" title="v-on 缩写"></a>v-on 缩写</h4><figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">&lt;!-- 完整语法 --&gt;<br>&lt;a v-on:click="doSomething"&gt;&lt;/a&gt;<br>&lt;!-- 缩写 --&gt;<br>&lt;a @click="doSomething"&gt;&lt;/a&gt;<br></code></pre></td></tr></tbody></table></figure>
 
-&lt;script&gt;
-new Vue(&amp;#123;
-  el: '#app',
-  data: &amp;#123;
-    type: 'C'
-  &amp;#125;
-&amp;#125;)
-&lt;/script&gt;</code></pre>
-<h4 id="v-else-、v-else-if-必须跟在-v-if-或者-v-else-if之后"><a href="#v-else-、v-else-if-必须跟在-v-if-或者-v-else-if之后" class="headerlink" title="v-else 、v-else-if 必须跟在 v-if 或者 v-else-if之后"></a>v-else 、v-else-if 必须跟在 v-if 或者 v-else-if之后</h4><h4 id="我们也可以使用-v-show-指令来根据条件展示元素："><a href="#我们也可以使用-v-show-指令来根据条件展示元素：" class="headerlink" title="我们也可以使用 v-show 指令来根据条件展示元素："></a>我们也可以使用 v-show 指令来根据条件展示元素：</h4><pre><code>&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;meta charset="utf-8"&gt;
-    &lt;title&gt;Vue 测试实例 - 菜鸟教程(runoob.com)&lt;/title&gt;
-    &lt;script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"&gt;&lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;div id="app"&gt;
-    &lt;h1 v-show="ok"&gt;Hello!&lt;/h1&gt;
-&lt;/div&gt;
 
-&lt;script&gt;
-new Vue(&amp;#123;
-  el: '#app',
-  data: &amp;#123;
-    ok: true
-  &amp;#125;
-&amp;#125;)
-&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
+<h3 id="Vue-js-条件与循环"><a href="#Vue-js-条件与循环" class="headerlink" title="Vue.js 条件与循环"></a>Vue.js 条件与循环</h3><figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">&lt;div id="app"&gt;<br>    &lt;div v-if="type === 'A'"&gt;<br>      A<br>    &lt;/div&gt;<br>    &lt;div v-else-if="type === 'B'"&gt;<br>      B<br>    &lt;/div&gt;<br>    &lt;div v-else-if="type === 'C'"&gt;<br>      C<br>    &lt;/div&gt;<br>    &lt;div v-else&gt;<br>      Not A/B/C<br>    &lt;/div&gt;<br>&lt;/div&gt;<br>    <br>&lt;script&gt;<br>new Vue({<br>  el: '#app',<br>  data: {<br>    type: 'C'<br>  }<br>})<br>&lt;/script&gt;<br></code></pre></td></tr></tbody></table></figure>
+<h4 id="v-else-、v-else-if-必须跟在-v-if-或者-v-else-if之后"><a href="#v-else-、v-else-if-必须跟在-v-if-或者-v-else-if之后" class="headerlink" title="v-else 、v-else-if 必须跟在 v-if 或者 v-else-if之后"></a>v-else 、v-else-if 必须跟在 v-if 或者 v-else-if之后</h4><h4 id="我们也可以使用-v-show-指令来根据条件展示元素："><a href="#我们也可以使用-v-show-指令来根据条件展示元素：" class="headerlink" title="我们也可以使用 v-show 指令来根据条件展示元素："></a>我们也可以使用 v-show 指令来根据条件展示元素：</h4><figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">&lt;!DOCTYPE html&gt;<br>&lt;html&gt;<br>&lt;head&gt;<br>    &lt;meta charset="utf-8"&gt;<br>    &lt;title&gt;Vue 测试实例 - 菜鸟教程(runoob.com)&lt;/title&gt;<br>    &lt;script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"&gt;&lt;/script&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>&lt;div id="app"&gt;<br>    &lt;h1 v-show="ok"&gt;Hello!&lt;/h1&gt;<br>&lt;/div&gt;<br>    <br>&lt;script&gt;<br>new Vue({<br>  el: '#app',<br>  data: {<br>    ok: true<br>  }<br>})<br>&lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;<br></code></pre></td></tr></tbody></table></figure>
+
+
 <h4 id="vue中的watch用法"><a href="#vue中的watch用法" class="headerlink" title="vue中的watch用法"></a>vue中的watch用法</h4><p>watch用来监听data中数据的变化，如果发生了变化，则进行操作。</p>
-<pre><code>handler(newName,oldName)&amp;#123;
-    this.fullName = newName + '' + this.lastName;
-&amp;#125;,
-immediate: true</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">handler(newName,oldName){<br>    this.fullName = newName + '' + this.lastName;<br>},<br>immediate: true<br></code></pre></td></tr></tbody></table></figure>
 <p>以上代码，可以在一开始改变firstName的时候，就进行监听</p>
 <p>此外，watch还有一个deep属性，默认值是<code>false</code>，代表是否深度监听。比如<code>data</code>里面有别的属性，则当属性改变时候，一般情况是监听不到的。只有加了<code>deep:true</code>，才会监听到属性值的改变。</p>
 <script>
@@ -921,8 +776,8 @@ Entyr:代码的入口，说自己import了什么，require了什么。可以在�
 
 这是引用sss
 
-print("hello!");
-return 0;
+print("hello!");return 0;
+
 
 ##1.为什么学习 JavaScript?##JavaScript web 开发人员必须学习的 3 门语言中
                         
@@ -1080,6 +935,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     
 
 </main>
+
 
 
 

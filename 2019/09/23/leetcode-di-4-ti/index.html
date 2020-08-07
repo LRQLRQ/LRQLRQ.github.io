@@ -29,7 +29,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.0.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 5.0.0"></head>
 
 
 <body>
@@ -400,83 +400,14 @@
 <h4 id="第4题题目要求如下："><a href="#第4题题目要求如下：" class="headerlink" title="第4题题目要求如下："></a>第4题题目要求如下：</h4><p>给出两个已经排好序的数组，nums1和nums2，要求输出两个数组合并后的中位数。要求时间复杂度不能超过 log(m+n) (假设两个数组长度分别为m和n)<br>我的思路是：分别求出两个数组的中位数，合并后的中位数也一定在这两个中位数之间。就一步一步的逼近，当走过总长度的四分之一后，就达到了中位数。但是我被其中的奇数偶数困扰太多，越写情况越麻烦，最后筋疲力尽。</p>
 <p>然后看讨论区，有个人写的比较简单的解：使用shift方法，依次将两个数组头部中比较小的元素弹出，只要弹出总长度一半的次数，剩下的就是中位数了。为了应对奇数偶数的问题，设置一个缓冲变量记录上一次的值，如果总长度是奇数则剩下的就是中位数；如果总长度是偶数则对当前变量与缓冲变量求和即可。<br>感觉其实我的思路和这个差不多，但是一开始想的太局限了，陷入细节，越来越麻烦。如果跳出去的话就能更好些一点。<br>今日份感慨：<strong>算法===抽象，业务逻辑===具体</strong>，算法就像诗，业务逻辑写的越多就像屎。</p>
 <p>下面贴出代码：</p>
-<pre><code>var findMedianSortedArrays = function(nums1, nums2) &amp;#123;
-    const totalLength = nums1.length + nums2.length;    //计算出总共的长度
-    let mid = Math.floor(totalLength/2) + 1;            //算出中位数所在的位置，进行这么多次数
-    let last = null, preLast = null;                    //用两个变量作为缓冲，用于应对奇数偶数长度
-    while (mid--) &amp;#123;        
-        preLast = last;            //保存上次的值
-        last = ((nums2.length === 0 || nums1[0] &lt; nums2[0]) ? nums1 : nums2).shift();    //从两个数组头开始计算，把小的数字弹出去
-    &amp;#125;
-    console.log(totalLength % 2 ? last : (last + preLast)/2 );
-    return totalLength % 2 ? last : (last + preLast)/2         //如果有奇数个数字，则返回当前的值；如果有偶数个数字，则返回当前与上次值的均值
-&amp;#125;;
-</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">var findMedianSortedArrays = function(nums1, nums2) {<br>    const totalLength = nums1.length + nums2.length;    //计算出总共的长度<br>    let mid = Math.floor(totalLength/2) + 1;            //算出中位数所在的位置，进行这么多次数<br>    let last = null, preLast = null;                    //用两个变量作为缓冲，用于应对奇数偶数长度<br>    while (mid--) {        <br>        preLast = last;            //保存上次的值<br>        last = ((nums2.length === 0 || nums1[0] &lt; nums2[0]) ? nums1 : nums2).shift();    //从两个数组头开始计算，把小的数字弹出去<br>    }<br>    console.log(totalLength % 2 ? last : (last + preLast)/2 );<br>    return totalLength % 2 ? last : (last + preLast)/2         //如果有奇数个数字，则返回当前的值；如果有偶数个数字，则返回当前与上次值的均值<br>};<br><br></code></pre></td></tr></tbody></table></figure>
+
+
 <p>鞭策一下自己吧<br>然后是我的屎：</p>
-<pre><code>var findMedianSortedArrays = function(nums1, nums2) &amp;#123;
-    var start1 = parseInt((nums1.length-1)/2);
-    var start2 = parseInt((nums2.length-1)/2);
-    var step1 = 0;
-    var step2 = 0;
-    var length = nums1.length + nums2.length;
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">var findMedianSortedArrays = function(nums1, nums2) {<br>    var start1 = parseInt((nums1.length-1)/2);<br>    var start2 = parseInt((nums2.length-1)/2);<br>    var step1 = 0;<br>    var step2 = 0;<br>    var length = nums1.length + nums2.length;<br><br>    while(nums1[start1] &lt; nums2[start2] &amp;&amp; (step1+step2)&lt;(parseInt(length/4+1) )){<br>        if(start1&lt;nums1.length-1){<br>            start1++;<br>            step1++;<br>        }<br>        if(start2&gt;0){<br>            start2--;<br>            step2++;<br>        }<br>    }<br>    while(nums1[start1] &gt; nums2[start2] &amp;&amp; (step1+step2)&lt;(parseInt(length/4+1))){<br>        if(start1&gt;0 ){<br>            start1--;<br>            step1++;<br>        }<br>        if(start2&lt;nums2.length-1){<br>            start2++;<br>            step2++;<br>        }<br>    }<br>    if(nums1[start1] &lt; nums2[start2]){<br>       if(length%2===1){   //如果总共是有奇数个，且数组1中位数小于数组2<br>            console.log(step1&gt;step2?nums1[start1]:nums2[start2]);<br>            return step1&gt;step2?nums1[start1]:nums2[start2];<br>        } else{             //如果总数是有偶数个<br>            if(step1&gt;step2){<br>                console.log((nums1[start1]+nums1[start1-1])/2);<br>                return (nums1[start1]+nums1[start1-1])/2;<br>            } else if(step1===step2){<br>                console.log((nums1[step1]+nums2[step2])/2);<br>                return (nums1[step1]+nums2[step2])/2;<br>            } else{<br>                console.log((nums2[start2]+nums2[start2-1])/2);<br>                return (nums2[start2]+nums2[start2-1])/2;<br>            }<br>        }<br>    }<br><br>    if(nums1[start1] &gt; nums2[start2]){<br>        if(length%2===1 ){   //如果总共是有奇数个，且数组1中位数大于数组2<br>            console.log(step1&gt;step2?nums1[start1]:nums2[start2]);<br>            return step1&gt;step2?nums1[start1]:nums2[start2];<br>        } else{             //如果总数是有偶数个<br>            if(step1&gt;step2){<br>                console.log((nums1[start1]+nums1[start1-1])/2);<br>                return (nums1[start1]+nums1[start1+1])/2;<br>            } else if(step1===step2){<br>                console.log((nums1[step1]+nums2[step2])/2);<br>                return (nums1[step1]+nums2[step2])/2;<br>            } else{<br>                console.log((nums2[start2]+nums2[start2-1])/2);<br>                return (nums2[start2]+nums2[start2+1])/2;<br>            }<br>        }<br>    }<br>};<br><br></code></pre></td></tr></tbody></table></figure>
 
-    while(nums1[start1] &lt; nums2[start2] &amp;&amp; (step1+step2)&lt;(parseInt(length/4+1) ))&amp;#123;
-        if(start1&lt;nums1.length-1)&amp;#123;
-            start1++;
-            step1++;
-        &amp;#125;
-        if(start2&gt;0)&amp;#123;
-            start2--;
-            step2++;
-        &amp;#125;
-    &amp;#125;
-    while(nums1[start1] &gt; nums2[start2] &amp;&amp; (step1+step2)&lt;(parseInt(length/4+1)))&amp;#123;
-        if(start1&gt;0 )&amp;#123;
-            start1--;
-            step1++;
-        &amp;#125;
-        if(start2&lt;nums2.length-1)&amp;#123;
-            start2++;
-            step2++;
-        &amp;#125;
-    &amp;#125;
-    if(nums1[start1] &lt; nums2[start2])&amp;#123;
-       if(length%2===1)&amp;#123;   //如果总共是有奇数个，且数组1中位数小于数组2
-            console.log(step1&gt;step2?nums1[start1]:nums2[start2]);
-            return step1&gt;step2?nums1[start1]:nums2[start2];
-        &amp;#125; else&amp;#123;             //如果总数是有偶数个
-            if(step1&gt;step2)&amp;#123;
-                console.log((nums1[start1]+nums1[start1-1])/2);
-                return (nums1[start1]+nums1[start1-1])/2;
-            &amp;#125; else if(step1===step2)&amp;#123;
-                console.log((nums1[step1]+nums2[step2])/2);
-                return (nums1[step1]+nums2[step2])/2;
-            &amp;#125; else&amp;#123;
-                console.log((nums2[start2]+nums2[start2-1])/2);
-                return (nums2[start2]+nums2[start2-1])/2;
-            &amp;#125;
-        &amp;#125;
-    &amp;#125;
 
-    if(nums1[start1] &gt; nums2[start2])&amp;#123;
-        if(length%2===1 )&amp;#123;   //如果总共是有奇数个，且数组1中位数大于数组2
-            console.log(step1&gt;step2?nums1[start1]:nums2[start2]);
-            return step1&gt;step2?nums1[start1]:nums2[start2];
-        &amp;#125; else&amp;#123;             //如果总数是有偶数个
-            if(step1&gt;step2)&amp;#123;
-                console.log((nums1[start1]+nums1[start1-1])/2);
-                return (nums1[start1]+nums1[start1+1])/2;
-            &amp;#125; else if(step1===step2)&amp;#123;
-                console.log((nums1[step1]+nums2[step2])/2);
-                return (nums1[step1]+nums2[step2])/2;
-            &amp;#125; else&amp;#123;
-                console.log((nums2[start2]+nums2[start2-1])/2);
-                return (nums2[start2]+nums2[start2+1])/2;
-            &amp;#125;
-        &amp;#125;
-    &amp;#125;
-&amp;#125;;
-</code></pre>
+
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -731,19 +662,20 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/09/23/npm-shi-shi-me/">
+                <a href="/2019/09/23/rpc-kuang-jia-yuan-cheng-guo-cheng-diao-yong/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="npm是干什么的">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="RPC框架--远程过程调用">
                         
-                        <span class="card-title">npm是干什么的</span>
+                        <span class="card-title">RPC框架--远程过程调用</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            npm,一个和pip一样的东西一直在别人的博客里看到npm，今天查了一下，终于知道这是什么了,npm全名是Node Package Manager，是一个包管理器。因为前端js的文件每天都有无数个贡献者贡献代码，如果没有这么一个npm，包管
+                            首先了解什么叫RPC，为什么要RPC，RPC是指远程过程调用，也就是说两台服务器A，B，一个应用部署在A服务器上，想要调用B服务器上应用提供的函数/方法，由于不在一个内存空间，不能直接调用，需要通过网络来表达调用的语义和传达调用的数据。
+比
                         
                     </div>
                     <div class="publish-info">
@@ -761,8 +693,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/npm-%E5%89%8D%E7%AB%AF/">
-                        <span class="chip bg-color">npm 前端</span>
+                    <a href="/tags/rpc-netty/">
+                        <span class="chip bg-color">rpc netty</span>
                     </a>
                     
                 </div>
@@ -945,6 +877,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     
 
 </main>
+
 
 
 
