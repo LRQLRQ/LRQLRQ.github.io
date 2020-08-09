@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="函数柯里化, 欢迎来到，瑞卿的窝。">
+    <meta name="keywords" content="剪绳子leetcode343, 欢迎来到，瑞卿的窝。">
     <meta name="description" content="学习的小小笔记，记在这里。">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>函数柯里化 | 欢迎来到，瑞卿的窝。</title>
+    <title>剪绳子leetcode343 | 欢迎来到，瑞卿的窝。</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -247,7 +247,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">函数柯里化</h1>
+                    <h1 class="description center-align post-title">剪绳子leetcode343</h1>
                 </div>
             </div>
         </div>
@@ -364,8 +364,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/javascript/">
-                                <span class="chip bg-color">javascript</span>
+                            <a href="/tags/leetcode/">
+                                <span class="chip bg-color">leetcode</span>
                             </a>
                         
                     </div>
@@ -380,7 +380,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-08-05
+                    2020-08-09
                 </div>
                 
 
@@ -396,17 +396,37 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>柯里化的作用，是将一个有多个输入参数的函数，转换为只有一个输入参数的函数，并返回函数：以同样的方法，处理剩余的参数。  </p>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">curry</span>(<span class="hljs-params">fn, ...args</span>) </span>{<br>  <span class="hljs-keyword">if</span>(fn.length &gt; args.length) { <span class="hljs-comment">// 传入参数还未到达</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">...arguments</span>) </span>{  <span class="hljs-comment">// 返回函数</span><br>      <span class="hljs-keyword">return</span> curry(fn, ...args, ...arguments); <span class="hljs-comment">// 递归调用自己</span><br>    }<br>  } <span class="hljs-keyword">else</span> {<br>    <span class="hljs-keyword">return</span> fn(...args); <span class="hljs-comment">// 符合条件，返回最终函数</span><br>  }<br>}<br><br><br><span class="hljs-comment">// demo</span><br><span class="hljs-keyword">const</span> add = <span class="hljs-function">(<span class="hljs-params">a, b, c</span>) =&gt;</span> a + b + c; <span class="hljs-comment">// ①</span><br><span class="hljs-keyword">const</span> curryAdd = curry(add);    <span class="hljs-comment">// ②</span><br>curryAdd(<span class="hljs-number">1</span>)(<span class="hljs-number">2</span>)(<span class="hljs-number">3</span>);  <span class="hljs-comment">// 6</span><br>curryAdd(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)(<span class="hljs-number">3</span>);  <span class="hljs-comment">// 6</span><br>curryAdd(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>);  <span class="hljs-comment">// 6</span><br></code></pre></td></tr></tbody></table></figure>
+                <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n&gt;1并且m&gt;1），每段绳子的长度记为 k[0],k[1]…k[m - 1] 。请问<code> k[0]*k[1]*...*k[m - 1]</code> 可能的最大乘积是多少？例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。</p>
+<p>答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。</p>
+<h3 id="简单分析"><a href="#简单分析" class="headerlink" title="简单分析"></a>简单分析</h3><ol>
+<li>递归，简单粗暴。类似斐波那契数列，可以自顶向下，<code>F(1) = 1, F(2) = 1, F(3) = 2</code>，显然会超出时间。</li>
+<li>动态规划，显然递归可以简化，把计算结果累积起来，查表计算。</li>
+<li>贪心。基于数学分析，当绳子长度大于4时，把剪绳子的段数分为3段的段数越多，则结果越大。长度等于4时，则分为4，因为<code>2*2&gt;1*3</code></li>
+</ol>
+<h3 id="代码与详细分析"><a href="#代码与详细分析" class="headerlink" title="代码与详细分析"></a>代码与详细分析</h3><h4 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h4><figure class="highlight js"><table><tbody><tr><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> cuttingRape = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n</span>) </span>{<br>    <span class="hljs-keyword">const</span> dp = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>];<br>  <span class="hljs-keyword">const</span> M = <span class="hljs-number">1e9</span>+<span class="hljs-number">7</span>;<br>  <br>  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i=<span class="hljs-number">0</span>; i&lt;=n; i++) {<br>    dp[i] = <span class="hljs-number">0</span>;    <span class="hljs-comment">// 初始化i的值，因为上面没有用new Array初始化dp数组的长度</span><br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> j=<span class="hljs-number">1</span>; j&lt;i; j++) {<br>      dp[i] = <span class="hljs-built_in">Math</span>.max( dp[i], j*(i-j), j*dp[i-j]) % M;<br>    }<br>  }<br>  <br>  <span class="hljs-keyword">return</span> dp[n];<br>}<br></code></pre></td></tr></tbody></table></figure>
 
-<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>看上面的demo代码，第①步，传入的函数有三个参数，而对函数柯里化后，curryAdd传入的参数可以每次传一个，一共传三次；也可以第一次传两个，第二次传一个；只要传递参数总长度是add的总长度即可。<br>第②步，对函数柯里化后，实际上curryAdd的值是一个函数，如下</p>
-<figure class="highlight js"><table><tbody><tr><td class="code"><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">...arguments</span>) </span>{<br>  <span class="hljs-keyword">return</span> curry(fn, ...args, ...arguments);<br>}<br></code></pre></td></tr></tbody></table></figure>
-<p>此处的<code>...args</code>是空的，什么都没有，因为curry传入的参数只有一个add函数。<br>当调用到<code>curryAdd(1)(2)(3)</code>时，返回值分别是以下函数</p>
-<figure class="highlight js"><table><tbody><tr><td class="code"><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">...arguments</span>) </span>{<br>  <span class="hljs-keyword">return</span> curry(fn, <span class="hljs-number">1</span>, ...arguments);<br>}<br><br><span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">...arguments</span>) </span>{<br>  <span class="hljs-keyword">return</span> curry(fn, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, ...arguments);<br>}<br><br><span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">...arguments</span>) </span>{<br>  <span class="hljs-keyword">return</span> curry(fn, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span> ...arguments);<br>}<br><br>add(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>);<br></code></pre></td></tr></tbody></table></figure>
 
-<p>到第三个函数就会返回，此时参数的长度已经和add函数的输入参数对齐，此时调用add函数，返回结果。</p>
-<h3 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h3><p>以前也见过柯里化的一些东西，静不下心去分析。最近看了一些源码，觉得这种函数式编程在js中还是比较常见的。最近看到一篇文章，讲koa的洋葱圈模型，redux的实现，都是类似这种一层包一层的函数，将这些联系起来觉得还好理解一些。  </p>
-<p>written by rain.<br>20.08.04</p>
+
+<p><strong>关注点：</strong></p>
+<ul>
+<li>初始化数组使用的是字面量形式，没有用<code>new Array(n+1)</code>的形式，因此需要先对<code>dp[i]</code>进行赋值</li>
+<li>第一层<code>for</code>循环是求出<code>(0-n)</code>的符合条件的最大值，虽然我们只要第n个值，但是把之前的累积起来，查表用</li>
+<li>第二层<code>for</code>循环是遍历，当已知<code>1到n-1</code>的各个状态的值，求长度为<code>n</code>的值。此时可以把<code>n</code>分为<code>j和n-j</code>，上面的<code>i</code>就代表<code>n</code>,<code>j</code>代表从<code>1到i-1</code>可能取的每个值。有两种可能，一种是只剪一次，<code>分成两段j和i-j，</code>那结果就是<code>j*(i-j)</code>，还有一种可能，减了一次长度为<code>j</code>之后再接着对剩下的<code>i-j</code>长度的绳子接着剪，那就直接取之前计算的结果，最大值就是<code>j*dp[i-j]</code>.累积，迭代，求出<code>dp[n]</code></li>
+</ul>
+<h4 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h4><p>因为会取模，但是当数值过大时，会损失精度。最后计算的结果有误差。当n=120时就会报错。</p>
+<h3 id="数学-amp-贪心"><a href="#数学-amp-贪心" class="headerlink" title="数学&amp;贪心"></a>数学&amp;贪心</h3><p>这个问题可以列一个方程求解。<code>y = Math.pow( (n/x) )</code> ,计算结果为<code>e</code>，此时可以取到最大值。将每段绳子分成长度为e时候，可以取到最大。由于<code>e=2.78...</code>，而绳子只能取整数，因此可能的取值为2或者3.当n很小时，取2合适，当n较大时，取3合适。这个怎么界定，就是4.当n=4时，<code>(2*3)&gt;1*3</code>，再往后随着n的增大，就是取3合适。</p>
+<figure class="highlight js"><table><tbody><tr><td class="code"><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cuttingRope</span>(<span class="hljs-params">n</span>) </span>{<br>  <span class="hljs-keyword">const</span> M = <span class="hljs-number">1e9</span>+<span class="hljs-number">7</span>;<br>  <span class="hljs-keyword">if</span>(n==<span class="hljs-number">2</span> || n==<span class="hljs-number">3</span>) {<br>    <span class="hljs-keyword">return</span> n<span class="hljs-number">-1</span>;<br>  }<br>  <span class="hljs-keyword">let</span> res = <span class="hljs-number">1</span>;<br>  <span class="hljs-keyword">while</span>(n &gt; <span class="hljs-number">4</span>) {<br>        n = n - <span class="hljs-number">3</span>;<br>    res = (res * <span class="hljs-number">3</span>) % M;<br>  }<br>  <span class="hljs-keyword">return</span> (res * n) % M;<br>}<br></code></pre></td></tr></tbody></table></figure>
+
+
+
+<p><strong>关注点</strong>：</p>
+<ul>
+<li>while内的条件是 (n &gt; 4)，这里就隐含了一些东西，当n小于4时，就直接乘n，等于4时，分成<code>2*2</code>比分成<code>1*3</code>性价比更高。大于4时，就直接减3，将绳子分成长度为3的一段。</li>
+</ul>
+<hr>
+<p>感觉有点渐入佳境？</p>
+<p>written bu Rain</p>
+<p>20.08.09</p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -450,7 +470,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://lrqlrq.github.io/2020/08/05/ke-li-hua/">http://lrqlrq.github.io/2020/08/05/ke-li-hua/</a>
+                    <a href="http://lrqlrq.github.io/2020/08/09/jian-sheng-zi-leetcode343/">http://lrqlrq.github.io/2020/08/09/jian-sheng-zi-leetcode343/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -488,8 +508,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/javascript/">
-                                    <span class="chip bg-color">javascript</span>
+                                <a href="/tags/leetcode/">
+                                    <span class="chip bg-color">leetcode</span>
                                 </a>
                             
                         </div>
@@ -657,9 +677,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/08/09/jian-sheng-zi-leetcode343/">
                     <div class="card-image">
@@ -677,9 +698,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-08-09
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-09
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -688,6 +709,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -706,27 +728,25 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/06/19/45-tan-xin/">
+                <a href="/2020/08/05/ke-li-hua/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="45初探贪心">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="函数柯里化">
                         
-                        <span class="card-title">45初探贪心</span>
+                        <span class="card-title">函数柯里化</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            贪心算法
-第45题
-给一个数组，从头跳到尾，数组内的值代表当前能跳的步数。
-const jump = function(nums) {    let maxPosition = 0;    // 未到边界前，下一步能到的最远位置  let 
+                            概念柯里化的作用，是将一个有多个输入参数的函数，转换为只有一个输入参数的函数，并返回函数：以同样的方法，处理剩余的参数。  
+代码function curry(fn, ...args) {  if(fn.length &gt; args.l
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-19
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-05
                             </span>
                         <span class="publish-author">
                             
@@ -739,8 +759,8 @@ const jump = function(nums) {    let maxPosition = 0;    // 未到边界前，�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/leetcode/">
-                        <span class="chip bg-color">leetcode</span>
+                    <a href="/tags/javascript/">
+                        <span class="chip bg-color">javascript</span>
                     </a>
                     
                 </div>
