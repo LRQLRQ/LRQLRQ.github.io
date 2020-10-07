@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="docker常用命令, 欢迎来到，瑞卿的窝。">
+    <meta name="keywords" content="nginx负载均衡, 欢迎来到，瑞卿的窝。">
     <meta name="description" content="学习的小小笔记，记在这里。">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>docker常用命令 | 欢迎来到，瑞卿的窝。</title>
+    <title>nginx负载均衡 | 欢迎来到，瑞卿的窝。</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -242,12 +242,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">docker常用命令</h1>
+                    <h1 class="description center-align post-title">nginx负载均衡</h1>
                 </div>
             </div>
         </div>
@@ -364,8 +364,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/docker/">
-                                <span class="chip bg-color">docker</span>
+                            <a href="/tags/%E5%89%8D%E7%AB%AF/">
+                                <span class="chip bg-color">前端</span>
                             </a>
                         
                     </div>
@@ -380,7 +380,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-10-05
+                    2020-10-07
                 </div>
                 
 
@@ -396,52 +396,69 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>最近做了一小套前后端系统，vue+koa+mysql，做了相关的监控页面。实验室都在搞docker，想起以前做项目的时候用过，现在再捡起来熟悉一下。把前后端项目都用docker部署了一下，写了dockerfile进行构建。</p>
-<h3 id="一、为什么要用docker"><a href="#一、为什么要用docker" class="headerlink" title="一、为什么要用docker"></a>一、为什么要用docker</h3><ol>
-<li><p>解决一个问题：<strong>「为什么会出问题呢?在我的电脑上运行没问题啊!」</strong></p>
-</li>
-<li><p>环境的快速部署，提高运维人员效率。</p>
-</li>
-</ol>
-<h3 id="二、一些概念"><a href="#二、一些概念" class="headerlink" title="二、一些概念"></a>二、一些概念</h3><p>镜像(image)：从Docker Hub拉取下来镜像，每次运行镜像，docker会生成一个容器承载镜像。如nginx镜像，nodejs镜像。</p>
-<p>容器(container)：容器与容器之间是隔离的，可以通过shell进入容器内部，类似一个小型的linux。</p>
-<p>镜像与容器的关系就像是：类和对象的关系。</p>
-<p>虚拟机和docker容器的区别：</p>
-<ul>
-<li><p>对于虚拟机而言，server之上运行操作系统，在操作系统内再运行一个application，这个application包含了新的操作系统、libs、apps。</p>
-</li>
-<li><p>对于docker容器而言，server之上运行操作系统，在操作系统上运行容器，容器内没有额外的操作系统，只包含一些libs、apps，而且容器之间是互相隔离的。</p>
-</li>
-</ul>
-<img src="https://github.com/LRQLRQ/picture/blob/master/docker_p1.png?raw=true" alt="image-20201005200414231" style="zoom:67%;">
-
-<img src="https://github.com/LRQLRQ/picture/blob/master/docker_p2.png?raw=true" alt="image-20201005200431685" style="zoom:67%;">
-
-<h3 id="三、常用的命令"><a href="#三、常用的命令" class="headerlink" title="三、常用的命令"></a>三、常用的命令</h3><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><code class="hljs shell">docker ps                # 查看进程<br>docker ps -a        # 查看所有进程<br>docker ps -aq        # 查看所有容器的id<br><br>docker run -itd (image_name)    # 生成一个容器来运行镜像<br><br>docker stop (container id)        # 关闭一个容器<br>docker start (container id)        # 打开容器<br>docker restart (container id)    # 重启容器<br>docker rm (container id)            # 删除容器<br><br>docker images        # 查看所有镜像<br>docker rmi (image id)                    # 删除镜像<br><br>docker cp (container id):/home/filename ~/    # 将文件从容器内移动到容器外部<br><br></code></pre></td></tr></tbody></table></figure>
-
-
-
-<h3 id="四、容器数据卷"><a href="#四、容器数据卷" class="headerlink" title="四、容器数据卷"></a>四、容器数据卷</h3><p>如果数据都在容器内部，当容器使用完删除掉，数据就会丢失。</p>
-<p>需要将Mysql之类的数据可以存储到本地！</p>
-<p>容器之间需要有一个数据共享的技术，docker容器中产生的数据，可以同步到本地。=》卷技术。</p>
-<p>将容器内的目录，挂载到linux宿主机上。</p>
-<p><strong>最终需求：容器的持久化和同步操作！容器间也是可以数据共享的</strong></p>
-<p>匿名挂载： -v 容器内路径</p>
-<p>具名挂载： -v 卷名：容器内路径</p>
-<p>指定路径挂载： -v /宿主机路径：容器内路径</p>
-<p>如果指定了路径，就按照指定的路径挂载。没有指定路径，看是具名还是匿名的挂载。可以通过<code>docker volume ls</code>查看，位置都是在<code>/var/lib/docker/volumes</code>内。</p>
-<p>docker容器内的卷，具名挂载，没有指定目录的情况下都是在<code>/var/lib/docker/volumes</code>内。</p>
-<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> 一旦设置了容器的权限，容器对我们挂载出来的内容就有限制了。</span><br>docker run -d -P --name nginx001 -v volum-nginx:/etc/nginx:rw nginx    # 可读可写<br>docker run -d -P --name nginx001 -v volum-nginx:/etc/nginx:ro nginx # 只读<br><br><span class="hljs-meta">#</span><span class="bash"> ro代表只能由宿主机改变，容器内部无法操作。</span><br></code></pre></td></tr></tbody></table></figure>
-
-
-
-
-
-
-
-
+                <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>nginx的负载均衡，有一次被问到了，以前只听说过，没接触过，这两天学了docker相当于多了好多台server，简单搜索了一下部署了一下负载均衡。</p>
 <hr>
-<p>written by Rain<br>2020.10.05</p>
+<h3 id="负载均衡的策略"><a href="#负载均衡的策略" class="headerlink" title="负载均衡的策略"></a>负载均衡的策略</h3><p>负载均衡有很多策略，默认的轮询策略，还有其他如随机，分配权重，ip哈希等等。</p>
+<ul>
+<li>round robin  轮询</li>
+<li>random  随机</li>
+<li>weight  权重</li>
+<li>fair  按响应时长</li>
+<li>url_hash   url的哈希值</li>
+<li>ip_hash  ip的hash值</li>
+<li>least_hash  最少连接数</li>
+</ul>
+<h3 id="常用策略及配置"><a href="#常用策略及配置" class="headerlink" title="常用策略及配置"></a>常用策略及配置</h3><blockquote>
+<p>第一步，先开几个nginx服务。总共用了三台机器，自己的本机做总机来转发，腾讯云一台机器：开两个docker部署nginx，阿里云一台机器，开一个docker部署nginx。</p>
+</blockquote>
+<p>代码类似下面</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> -d表示后台运行</span><br><span class="hljs-meta">#</span><span class="bash"> --name为给这个容器的命名</span><br><span class="hljs-meta">#</span><span class="bash"> -p 表示端口映射</span><br>docker run -d --name nginx01 -p 9090:80 nginx<br></code></pre></td></tr></tbody></table></figure>
+
+
+
+<p>后面就是在主机的nginx的配置文件添加内容。</p>
+<h4 id="1-轮询"><a href="#1-轮询" class="headerlink" title="1.轮询"></a>1.轮询</h4><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><code class="hljs shell">upstream nginxs {<br>    server 1.2.3.1:8080;<br>  server 1.2.3.2:8080;<br>    server 1.2.3.3:8080;<br>}<br><br>server {<br><span class="hljs-meta">    #</span><span class="bash">...省略其余配置</span><br>    location / {<br>        proxy_pass http://nginxs;<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
+
+<p>表示当本机接收到请求时，转发到nginxs组内的三台机器。</p>
+<h4 id="2-权重和随机"><a href="#2-权重和随机" class="headerlink" title="2. 权重和随机"></a>2. 权重和随机</h4><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> 权重，在server后面添加weight字段，会按比例进行分发。</span><br>upstream nginxs {<br>    server 1.2.3.1:8080 weight=1;<br>  server 1.2.3.2:8080 weight=2;<br>    server 1.2.3.3:8080 weight=3;<br>}<br></code></pre></td></tr></tbody></table></figure>
+
+
+
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> 随机，在下方位置处添加random字段。</span><br>upstream nginxs {<br>    random;<br>    server 1.2.3.1:8080;<br>  server 1.2.3.2:8080;<br>    server 1.2.3.3:8080;<br>}<br></code></pre></td></tr></tbody></table></figure>
+
+
+
+<h4 id="3-按时长相应和最少连接数"><a href="#3-按时长相应和最少连接数" class="headerlink" title="3. 按时长相应和最少连接数"></a>3. 按时长相应和最少连接数</h4><p>fair（公平），按时长相应，需要使用第三方库重新编译才能使用。</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> 按时长相应，在下方相应位置处添加fair字段</span><br>upstream nginxs {<br>    fair;<br>    server 1.2.3.1:8080;<br>  server 1.2.3.2:8080;<br>    server 1.2.3.3:8080;<br>}<br></code></pre></td></tr></tbody></table></figure>
+
+
+
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> 最少连接数， 在下放位置处添加least_conn字段</span><br>upstream nginxs {<br>    least_conn;<br>    server 1.2.3.1:8080;<br>  server 1.2.3.2:8080;<br>    server 1.2.3.3:8080;<br>}<br></code></pre></td></tr></tbody></table></figure>
+
+
+
+<h4 id="4-ip哈希和url哈希"><a href="#4-ip哈希和url哈希" class="headerlink" title="4. ip哈希和url哈希"></a>4. ip哈希和url哈希</h4><p>有些请求是有状态的，后端可能会维持session，上次请求到哪台机器，下一次还得请求到这台机器。</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> ip <span class="hljs-built_in">hash</span>，在下方位置处添加ip_hash字段</span><br>upstream nginxs {<br>  ip_hash;<br>    server 1.2.3.1:8080;<br>  server 1.2.3.2:8080;<br>    server 1.2.3.3:8080;<br>}<br></code></pre></td></tr></tbody></table></figure>
+
+
+
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> url <span class="hljs-built_in">hash</span> 在下方位置处添加相应字段</span><br>upstream nginxs{<br>  hash $request_uri consistent;<br>  server 1.2.3.1:8080;<br>  server 1.2.3.2:8080;<br>    server 1.2.3.3:8080;<br>}<br><br></code></pre></td></tr></tbody></table></figure>
+
+
+
+<h3 id="故障和备用方案"><a href="#故障和备用方案" class="headerlink" title="故障和备用方案"></a>故障和备用方案</h3><blockquote>
+<p>有时候服务器可能会请求失败，可以在nginx的配置中进行相关设置，假如所有正在运行的服务器都挂了的话，就开启备用服务器。</p>
+</blockquote>
+<p>代码如下:</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><code class="hljs shell">upstream nginxs {<br>    server 1.2.3.1:8080;<br>    server 1.2.3.2:8080  max_fails=3 fail_timeout=30s;<br>    server 1.2.3.3:8080  backup;<br>}<br><br></code></pre></td></tr></tbody></table></figure>
+
+<p><code>max_fails</code>参数代表多少次请求后端失败后悔暂停这个业务点，不再给它发送新的请求。</p>
+<p><code>fail_timeout</code>参数代表当nginx认定这个节点不可用时，暂停多久，默认是10s。</p>
+<p><code>backup</code>参数代表，当所有的节点都挂掉的时候，会把请求打到这个节点上，最后的救命稻草。</p>
+<hr>
+<p>今天看完了《纸牌的秘密》，晚上也实现了负载均衡的demo，很充实。书有哲学的味道，看着有点后背发凉，引导读者思考「我是谁，我从哪里来的问题」，读完happy ending感觉还挺温馨。希望有一天也能喝到彩虹汽水。</p>
+<p>written by Rain</p>
+<p>2020.10.07</p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -485,7 +502,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://lrqlrq.github.io/2020/10/05/docker-chang-yong-ming-ling/">http://lrqlrq.github.io/2020/10/05/docker-chang-yong-ming-ling/</a>
+                    <a href="http://lrqlrq.github.io/2020/10/07/nginx-fu-zai-jun-heng/">http://lrqlrq.github.io/2020/10/07/nginx-fu-zai-jun-heng/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -523,8 +540,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/docker/">
-                                    <span class="chip bg-color">docker</span>
+                                <a href="/tags/%E5%89%8D%E7%AB%AF/">
+                                    <span class="chip bg-color">前端</span>
                                 </a>
                             
                         </div>
@@ -692,9 +709,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/10/07/nginx-fu-zai-jun-heng/">
                     <div class="card-image">
@@ -714,9 +732,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-10-07
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-07
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -725,6 +743,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -743,24 +762,25 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/08/09/jian-sheng-zi-leetcode343/">
+                <a href="/2020/10/05/docker-chang-yong-ming-ling/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="剪绳子leetcode343">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="docker常用命令">
                         
-                        <span class="card-title">剪绳子leetcode343</span>
+                        <span class="card-title">docker常用命令</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            问题给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n&gt;1并且m&gt;1），每段绳子的长度记为 k[0],k[1]…k[m - 1] 。请问 k[0]*k[1]*...*k[m - 1] 可能的最大乘积是
+                            前言最近做了一小套前后端系统，vue+koa+mysql，做了相关的监控页面。实验室都在搞docker，想起以前做项目的时候用过，现在再捡起来熟悉一下。把前后端项目都用docker部署了一下，写了dockerfile进行构建。
+一、为什么要
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-09
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-05
                             </span>
                         <span class="publish-author">
                             
@@ -773,8 +793,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/leetcode/">
-                        <span class="chip bg-color">leetcode</span>
+                    <a href="/tags/docker/">
+                        <span class="chip bg-color">docker</span>
                     </a>
                     
                 </div>
