@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="开发小程序！, 欢迎来到，瑞卿的窝。">
+    <meta name="keywords" content="Promise源码实现, 欢迎来到，瑞卿的窝。">
     <meta name="description" content="学习的小小笔记，记在这里。">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>开发小程序！ | 欢迎来到，瑞卿的窝。</title>
+    <title>Promise源码实现 | 欢迎来到，瑞卿的窝。</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -242,12 +242,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">开发小程序！</h1>
+                    <h1 class="description center-align post-title">Promise源码实现</h1>
                 </div>
             </div>
         </div>
@@ -362,9 +362,13 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/javascript/">
+                                <span class="chip bg-color">javascript</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -376,7 +380,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-09-23
+                    2021-01-30
                 </div>
                 
 
@@ -392,9 +396,33 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <ol>
-<li>JSON文件在小程序代码中扮演者静态配置的作用，在小程序运行之前就决定了小程序的一些表现。需要注意的是小程序是无法再运行过程中去动态更新JSON配置文件而发生对应变化的。</li>
+                <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>Promise，看到这个词，大脑里第一念头想到的是微任务、解决异步回调。但是在这上面栽过跟头，记得有次面试，面试官出了一个比较简单的和promise相关的问题，可惜平日写的少不怎么会运用，面试准备都刷leetcode去了，但是面试官一道也没问。当时也有些不在状态，面试官一再让我尝试，最后也没有写出来，最后只拿到了一个白菜的offer，有些痛心疾首。promise也在网上看到很多文章写过了，这两天沉下心实现了一下，关于核心的一些点，觉得应该整理一下。</p>
+<h4 id="产生原因"><a href="#产生原因" class="headerlink" title="产生原因"></a>产生原因</h4><p>promise是解决异步回调地狱的一个方案，回调地狱是指对于异步操作，我们不知道异步任务何时能完成，不能一直让单线程的js等着，所以提前把回调函数注册好，当异步耗时的任务结束后，就触发回调，执行提前写好的回调函数。但是当多个异步任务之间有依赖之后，C异步任务依赖于B异步任务，B异步任务依赖于A异步任务，就会导致代码越来越胖，宽度增加，也就是说回调会一层嵌套一层，按照正常的缩进，代码会冗长且胖。社区的讨论，时代的产物，promise诞生了。</p>
+<h4 id="解决的问题-amp-关键原理"><a href="#解决的问题-amp-关键原理" class="headerlink" title="解决的问题&amp;关键原理"></a>解决的问题&amp;关键原理</h4><p>promise比较优雅的一点是：将代码从宽度变为了长度，不需要一层一层嵌套回调，只需要从上往下按着写就好。回调函数还是可以提前注册好，不过不是水平方向了，而是写到promise的then函数里，这里使用了发布订阅的设计模式，当异步任务完成后会调用resolve，进而通知预先注册好的回调函数，依次执行。</p>
+<p>好了，源码附在最后面，下面写一下实现源码关键与巧妙的点吧。</p>
+<h4 id="Promise的三种状态"><a href="#Promise的三种状态" class="headerlink" title="Promise的三种状态"></a>Promise的三种状态</h4><p>一个Promise只能三种状态，<code>pending</code>、<code>fulfilled</code>、<code>rejected</code>，分别是等待着，已完成，已拒绝。promise在没有调用<code>resolve</code>方法和<code>reject</code>方法之前，就是<code>pending</code>状态，调用了<code>resolve</code>方法之后，转换为<code>fulfilled</code>状态，同理，调用了<code>reject</code>方法之后，转换为<code>rejected</code>状态。<strong>但是，pending只能转换为fulfilled或rejected状态的一种，且不可逆转</strong>。这是怎么实现的呢？一个标志位，<code>status</code>，调用<code>resolve</code>或<code>reject</code>方法之后就进行标志位的赋值。</p>
+<h4 id="promise构造器的参数"><a href="#promise构造器的参数" class="headerlink" title="promise构造器的参数"></a>promise构造器的参数</h4><p>构造一个promise，输入的参数是一个函数x，这个函数会提供两个形参，名字随便设置，一般设为<code>resolve</code>和<code>reject</code>，这两个方法实际上是在Promise内部实现的。当promise构造结束后，会直接调用这个函数x。</p>
+<h4 id="promise的then方法"><a href="#promise的then方法" class="headerlink" title="promise的then方法"></a>promise的then方法</h4><p>then方法的作用是：注册回调函数。</p>
+<p>then方法接收的参数是两个函数<code>onResolved</code>和<code>onRejected</code>，这两个函数就是回调函数。就是好的情况和坏的情况两种。当promise对象按照预期的逻辑正常执行时，也就是执行到调用了<code>resolve</code>方法这里，就会执行<code>onResolvd</code>这个回调，如果预设的逻辑有问题，或者某处出错，会执行<code>onReject</code>这个回调。</p>
+<p>then方法可以进行链式调用，因为then方法执行后返回的也是一个新的promise，同样可以执行then方法。</p>
+<p>then方法实现的关键点。</p>
+<ol>
+<li>输入的参数必须是函数。如果只是普通值，需要在源码内进行修饰，转换为函数。</li>
+<li>一个promise对象的正确回调函数，也就是then方法内注册的第一个函数，它接受的参数是构造promise对象的函数内，执行<code>resolve(abc)</code>方法时传入的参数，也就是<code>abc</code>，有可能是一个值，此时就直接执行；也有可能是一个新的promise，此时需要等待新的promise执行完毕后，看返回值是什么再拿来当做参数。这就有可能子子孙孙无穷尽，不知道下一个参数是promise还是普通值，就需要递归来处理。</li>
+<li>查看当前的promise状态是什么，如果是<code>pending</code>，就把注册的成功回调和失败回调放到相应的订阅者数组中，等待<code>resolve</code>或者<code>reject</code>一声令下，就执行回调。</li>
 </ol>
+<h4 id="isPromise方法"><a href="#isPromise方法" class="headerlink" title="isPromise方法"></a>isPromise方法</h4><p>判断一个对象是不是promise，一只动物会嘎嘎叫，就认定他是鸭子。一个对象有then方法，就认为他是promise。</p>
+<h4 id="Promise-all实现"><a href="#Promise-all实现" class="headerlink" title="Promise.all实现"></a>Promise.all实现</h4><p>此方法输入是一个数组，数组内容是promise对象或者是普通值。输出是所有promise返回的结果。如果有promise出错，就直接拒绝。</p>
+<p>构造一个新的promise来实现，一个比较关键的点是，<strong>要根据已经完成态promise的数量来决定是否执行resolve方法</strong>。</p>
+<hr>
+<p>源码如下：</p>
+<figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><code class="hljs javascript"><br><span class="hljs-keyword">const</span> RESOLVED = <span class="hljs-string">'RESOLVED'</span>;<br><span class="hljs-keyword">const</span> PENDING = <span class="hljs-string">'PENDING'</span>;<br><span class="hljs-keyword">const</span> REJECTED = <span class="hljs-string">'REJECTED'</span>;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyPromise</span> </span>{<br>  <span class="hljs-keyword">constructor</span>(fn) {<br>    <span class="hljs-built_in">this</span>.value = <span class="hljs-literal">undefined</span>;<br>    <span class="hljs-built_in">this</span>.reason = <span class="hljs-literal">undefined</span>;<br>    <span class="hljs-built_in">this</span>.status = PENDING;<br>    <span class="hljs-built_in">this</span>.onResolvedTasks = [];<br>    <span class="hljs-built_in">this</span>.onRejectedTasks = [];<br><br>    <span class="hljs-keyword">let</span> resolve = <span class="hljs-function">(<span class="hljs-params">val</span>) =&gt;</span> {<br>      <span class="hljs-keyword">if</span>(<span class="hljs-built_in">this</span>.status === PENDING) { <span class="hljs-comment">// PENDING的作用，是让resolve和reject不能同时调用</span><br>        <span class="hljs-built_in">this</span>.status = RESOLVED;<br>        <span class="hljs-built_in">this</span>.value = val;<br>        <span class="hljs-built_in">this</span>.onResolvedTasks.forEach(<span class="hljs-function"><span class="hljs-params">cb</span> =&gt;</span> cb());<br>      }<br>    }<br><br>    <span class="hljs-keyword">let</span> reject = <span class="hljs-function">(<span class="hljs-params">reason</span>) =&gt;</span> {<br>      <span class="hljs-keyword">if</span>(<span class="hljs-built_in">this</span>.status === PENDING) {<br>        <span class="hljs-built_in">this</span>.status = REJECTED;<br>        <span class="hljs-built_in">this</span>.reason = reason;<br>        <span class="hljs-built_in">this</span>.onRejectedTasks.forEach(<span class="hljs-function"><span class="hljs-params">cb</span> =&gt;</span> cb());<br>      }<br>    }<br><br>    <span class="hljs-keyword">try</span> {<br>      fn(resolve, reject);<br>    } <span class="hljs-keyword">catch</span> (e) {<br>      reject(e);<br>    }<br>  }<br><br>  then(onResolved, onRejected) {<br>    onRejected = <span class="hljs-keyword">typeof</span> onRejected === <span class="hljs-string">'function'</span><br>      ? onRejected<br>      : <span class="hljs-function"><span class="hljs-params">reason</span> =&gt;</span> {<span class="hljs-keyword">throw</span> reason};<br>    onResolved = <span class="hljs-keyword">typeof</span> onResolved === <span class="hljs-string">'function'</span><br>      ? onResolved<br>      : <span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> v;<br>    <br>    <span class="hljs-keyword">const</span> promise2 = <span class="hljs-keyword">new</span> MyPromise(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>      <span class="hljs-keyword">let</span> x;<br><br>      <span class="hljs-keyword">if</span>(<span class="hljs-built_in">this</span>.status === RESOLVED) {<br>        <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {  <span class="hljs-comment">// 这里需要使用异步，否则无法获得promise2</span><br>          <span class="hljs-keyword">try</span> {<br>            x = onResolved(<span class="hljs-built_in">this</span>.value);<br>            <span class="hljs-built_in">this</span>.resolvePromise(promise2, x, resolve, reject);<br>          } <span class="hljs-keyword">catch</span> (e) {<br>            reject(e);<br>          }<br>        }, <span class="hljs-number">0</span>);<br>      }<br><br>      <span class="hljs-keyword">if</span>(<span class="hljs-built_in">this</span>.status === REJECTED) {<br>        <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {<br>          <span class="hljs-keyword">try</span> {<br>            x = onRejected(<span class="hljs-built_in">this</span>.reason);<br>            <span class="hljs-built_in">this</span>.resolvePromise(promise2, x, resolve, reject);<br>          } <span class="hljs-keyword">catch</span>(e) {<br>            reject(e);<br>          }<br>        }, <span class="hljs-number">0</span>);<br>      }<br><br>      <span class="hljs-keyword">if</span>(<span class="hljs-built_in">this</span>.status === PENDING) {<br>        <span class="hljs-built_in">this</span>.onResolvedTasks.push(<br>          () =&gt; {<br>            <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {<br>              <span class="hljs-keyword">try</span> {<br>                x = onResolved(<span class="hljs-built_in">this</span>.value);<br>                <span class="hljs-built_in">this</span>.resolvePromise(promise2, x, resolve, reject);<br>              } <span class="hljs-keyword">catch</span> (e) {<br>                reject(e);<br>              }<br>            }, <span class="hljs-number">0</span>);<br>          }<br>        );<br>        <br>        <span class="hljs-built_in">this</span>.onRejectedTasks.push(<br>          () =&gt; {<br>            <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {<br>              <span class="hljs-keyword">try</span> {<br>                x = onRejected(<span class="hljs-built_in">this</span>.reason);<br>                <span class="hljs-built_in">this</span>.resolvePromise(promise2, x, resolve, reject);<br>              } <span class="hljs-keyword">catch</span> (e) {<br>                reject(e);<br>              }<br>            })<br>          }<br>        );<br>      }<br>    })<br><br>    <span class="hljs-keyword">return</span> promise2;<br>  }<br><br>  <span class="hljs-keyword">catch</span>(onRejected) {<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.then(<span class="hljs-literal">undefined</span>, onRejected);<br>  }<br><br>  resolvePromise(promise, x, resolve, reject) {<br>    <span class="hljs-keyword">if</span>(promise === x) {<br>      reject(<span class="hljs-keyword">new</span> <span class="hljs-built_in">TypeError</span>(<span class="hljs-string">'Chaining cycle detected for promise!'</span>));<br>    }<br>    <span class="hljs-keyword">if</span>(x &amp;&amp; <span class="hljs-keyword">typeof</span> x === <span class="hljs-string">'object'</span> || <span class="hljs-keyword">typeof</span> x === <span class="hljs-string">'function'</span>) {<br>      <span class="hljs-keyword">let</span> used = <span class="hljs-literal">false</span>; <span class="hljs-comment">// 只调用一次</span><br>      <span class="hljs-keyword">try</span> {<br><br>        <span class="hljs-keyword">let</span> then = x.then; <span class="hljs-comment">// 如果x是promise，则取出他的then方法，</span><br>        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> then === <span class="hljs-string">'function'</span>) {<br>          then.call(x, <span class="hljs-function"><span class="hljs-params">y</span> =&gt;</span> { <span class="hljs-comment">// 对前一个then返回是promise的情况，对返回的promise注册新的方法，继续取值</span><br>            <span class="hljs-keyword">if</span>(used) <span class="hljs-keyword">return</span>;<br>            used = <span class="hljs-literal">true</span>;<br>            <span class="hljs-built_in">this</span>.resolvePromise(promise, y, resolve, reject);<br>          }, <span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {<br>            <span class="hljs-keyword">if</span>(used) <span class="hljs-keyword">return</span>;<br>            used = <span class="hljs-literal">true</span>;<br>            reject(err);<br>          });<br>        } <span class="hljs-keyword">else</span> {<br>          <span class="hljs-keyword">if</span>(used) <span class="hljs-keyword">return</span>;<br>          used = <span class="hljs-literal">true</span>;<br>          resolve(x); <span class="hljs-comment">// x不是一个函数，是一个对象???</span><br>        }<br>        <br>      } <span class="hljs-keyword">catch</span> (err) {<br>        <span class="hljs-keyword">if</span>(used) <span class="hljs-keyword">return</span>;<br>        used = <span class="hljs-literal">true</span>;<br>        reject(err);<br>      }<br>    } <span class="hljs-keyword">else</span> {<br>      resolve(x); <span class="hljs-comment">// 如果正常值的话直接resolve返回</span><br>    }<br>  }<br><br>  <span class="hljs-keyword">static</span> isPromise(p) {<br>    <span class="hljs-keyword">if</span>(p&amp;&amp;<span class="hljs-keyword">typeof</span> p===<span class="hljs-string">'object'</span> || <span class="hljs-keyword">typeof</span> p === <span class="hljs-string">'function'</span>) {<br>      <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> p.then === <span class="hljs-string">'function'</span>) {<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>      }<br>    } <span class="hljs-keyword">else</span> {<br>      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    }<br>  }<br>  <span class="hljs-keyword">static</span> all(promises) {<br>    <span class="hljs-keyword">if</span>(!<span class="hljs-built_in">Array</span>.isArray(promises)) {<br>      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">TypeError</span>(<span class="hljs-string">'the input should be an array!'</span>);<br>    }<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> MyPromise(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>      <span class="hljs-keyword">let</span> results = [];<br>      <span class="hljs-keyword">let</span> count = <span class="hljs-number">0</span>;<br>      <span class="hljs-keyword">let</span> length = promises.length;<br>      <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dealPromise</span>(<span class="hljs-params">i, value</span>) </span>{<br>        results[i] = value;<br>        count += <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">if</span>(count===length) {<br>          resolve(results);<br>        }<br>      }<br>      <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i=<span class="hljs-number">0</span>; i&lt;length; i++) {<br>        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">this</span>.isPromise(promises[i])) {<br>          promises[i].then(<span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> {<br>            dealPromise(i, value);<br>          }, <span class="hljs-function"><span class="hljs-params">reason</span> =&gt;</span> {<br>            reject(reason);<br>            <span class="hljs-keyword">return</span> ;<br>          });<br>        } <span class="hljs-keyword">else</span> {<br>          dealPromise(i, promises[i]);<br>        }<br>      }<br>    });<br>  }<br><br>  <span class="hljs-keyword">static</span> race(promises) {<br>    <span class="hljs-keyword">if</span>(!<span class="hljs-built_in">Array</span>.isArray(promises)) {<br>      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">TypeError</span>(<span class="hljs-string">'the input should be an array!'</span>);<br>    }<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> MyPromise(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>      <span class="hljs-keyword">let</span> length = promises.length;<br>      <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i=<span class="hljs-number">0</span>; i&lt;length; i++) {<br>        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">this</span>.isPromise(promises[i])) {<br>          promises[i].then(<span class="hljs-function"><span class="hljs-params">val</span> =&gt;</span> {<br>            resolve(val);<br>            <span class="hljs-keyword">return</span> ;<br>          }, <span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {<br>            reject(err);<br>            <span class="hljs-keyword">return</span> ;<br>          })<br>        } <span class="hljs-keyword">else</span> {<br>          resolve(promises[i]);<br>          <span class="hljs-keyword">return</span>;<br>        }<br>      }<br>    });<br>  }<br><br>  <span class="hljs-keyword">static</span> resolve(value) {<br>    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">this</span>.isPromise(value)) {<br>      <span class="hljs-keyword">return</span> value;<br>    } <span class="hljs-keyword">else</span> {<br>      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> MyPromise(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>        resolve(value);<br>      });<br>    }<br>  }<br><br>  <span class="hljs-keyword">static</span> reject(value) {<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> MyPromise(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>      reject(value);<br>    })<br>  }<br>}<br><br><span class="hljs-comment">// 可以使用promises-aplus-tests这个npm包来检测</span><br>MyPromise.defer = MyPromise.deferred = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>  <span class="hljs-keyword">let</span> dfd = {};<br>  dfd.promise = <span class="hljs-keyword">new</span> MyPromise(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>      dfd.resolve = resolve;<br>      dfd.reject = reject;<br>  });<br>  <span class="hljs-keyword">return</span> dfd;<br>}<br><br><span class="hljs-built_in">module</span>.exports = MyPromise<br></code></pre></td></tr></tbody></table></figure>
+
+<p>可以使用promises-aplus-tests这个npm包来检测实现的是否正确。</p>
+<hr>
+<p>一开始不想写大论文，最近渐入佳境，游戏也不想打了。</p>
+<p>written by Rain</p>
+<p>2021.1.30  天朗气清</p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -438,7 +466,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://lrqlrq.github.io/2019/09/23/xiao-cheng-xu-de-kai-fa/">http://lrqlrq.github.io/2019/09/23/xiao-cheng-xu-de-kai-fa/</a>
+                    <a href="http://lrqlrq.github.io/2021/01/30/promise-yuan-ma-shi-xian/">http://lrqlrq.github.io/2021/01/30/promise-yuan-ma-shi-xian/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -475,7 +503,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/javascript/">
+                                    <span class="chip bg-color">javascript</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -641,29 +673,30 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/09/23/xiao-yuan-wang-wu-xian-liu-liang-zong-jie/">
+                <a href="/2021/01/30/promise-yuan-ma-shi-xian/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="校园网的无限流量">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Promise源码实现">
                         
-                        <span class="card-title">校园网的无限流量</span>
+                        <span class="card-title">Promise源码实现</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            无限流量归纳最近学校的无限流量套餐试验结束了，原先的1分钱100M带宽无线流量套餐，现在涨到50块了，前天晚上听到室友找到了一种校园网无线流量的方法，昨天就试了试，虽然还没成功，但是稍微了解了一下原理，还有一些引申。勒石以记，待有缘之时再返
+                            前言Promise，看到这个词，大脑里第一念头想到的是微任务、解决异步回调。但是在这上面栽过跟头，记得有次面试，面试官出了一个比较简单的和promise相关的问题，可惜平日写的少不怎么会运用，面试准备都刷leetcode去了，但是面试官一道
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-09-23
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-01-30
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -672,11 +705,12 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/vpn/">
-                        <span class="chip bg-color">vpn</span>
+                    <a href="/tags/javascript/">
+                        <span class="chip bg-color">javascript</span>
                     </a>
                     
                 </div>
@@ -690,31 +724,26 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/09/23/xue-xi-webpack/">
+                <a href="/2020/10/07/nginx-fu-zai-jun-heng/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="学习Webpack">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="nginx负载均衡">
                         
-                        <span class="card-title">学习Webpack</span>
+                        <span class="card-title">nginx负载均衡</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            核心概念
-Entry:入口
-Output:输出
-Loaders:处理其他类型（不是js）的文件
-Plugins:插件，其他的功能
+                            前言nginx的负载均衡，有一次被问到了，以前只听说过，没接触过，这两天学了docker相当于多了好多台server，简单搜索了一下部署了一下负载均衡。
 
-
-Entyr:代码的入口，说自己import了什么，require了什么。可以在这里直接或者间接找到依赖。打
+负载均衡的策略负载均衡有很多策略，默认的轮询策略，还有其他如随机，分配权重，ip哈希
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-09-23
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-07
                             </span>
                         <span class="publish-author">
                             

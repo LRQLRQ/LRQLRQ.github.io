@@ -435,11 +435,53 @@
 
 
 
+<blockquote>
+<p>除了容器和宿主机之间可以数据共享，容器之间也可以数据共享</p>
+</blockquote>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> -it 表示交互</span><br><span class="hljs-meta">#</span><span class="bash"> --name表示命名</span><br><span class="hljs-meta">#</span><span class="bash"> -v表示挂载目录，宿主机目录:容器内目录</span><br><br>docker run -it --name docker01 -v /home/ceshi:/home/ceshi    centos /bin/bash    # 以centos为镜像，命名docker01容器<br>cd /home/ceshi  touch docker01    # 执行完上面的命令会进入docker01容器，在ceshi目录下新建docker01文件<br><br>exit # 退出容器<br><br>docker run -it --name docker02 --volumes-from docker01 centos /bin/bash        # 以centos为镜像，挂载卷容器<br>cd /home/ceshi    touch docker02  # 进入容器名为docker02的容器，里面已经存在docker01文件，同时新建docker01文件<br>exit # 退出容器<br><br>cd /home/ceshi # 进入宿主机的/home/ceshi目录，发现docker01和docker02文件<br></code></pre></td></tr></tbody></table></figure>
 
 
 
 
 
+<h3 id="五、Dockerfile"><a href="#五、Dockerfile" class="headerlink" title="五、Dockerfile"></a>五、Dockerfile</h3><p>DOckerfile就是用来构建docker镜像的构建脚本！</p>
+<p>构建步骤：</p>
+<ol>
+<li>编写一个dockerfile文件</li>
+<li>docker build构建成为一个镜像</li>
+<li>docker run运行镜像</li>
+<li>docker push 发布镜像(DockerHub、阿里云仓库镜像)</li>
+</ol>
+<h4 id="DockerFile的指令"><a href="#DockerFile的指令" class="headerlink" title="DockerFile的指令"></a>DockerFile的指令</h4><hr>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><code class="hljs shell">FROM        # 基础镜像，一切从这个镜像开始<br>MAINTAINER  # 镜像的维护者是谁，姓名+邮箱<br>RUN         # 镜像构建的时候需要运行的命令<br>WORKDIR            # 镜像的工作目录<br>VOLUME            # 挂载的目录<br>EXPOSE            # 保留端口的配置<br>CMD                    # 指定这个容器启动的时候，要执行的命令，只有最后一个会生效，可以被替代<br>ENTRYPOINT    # 指定这个容器启动的时候，要执行的命令，可以追加命令<br>ONBUILD            # 当构建一个被继承 DockerFile 这个时候就会运行 ONBUILD 的指令，触发指令<br>COPY                # 类似ADD， 将我们的文件拷贝到镜像<br>ENV                    # 构建的时候设置环境变量<br></code></pre></td></tr></tbody></table></figure>
+
+
+
+<p>可以通过history命令查看镜像的构建过程。</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><code class="hljs shell">docker history imageid<br></code></pre></td></tr></tbody></table></figure>
+
+
+
+<blockquote>
+<p>CMD命令和ENTRYPOINT命令的区别？</p>
+</blockquote>
+<p>在dockerfile内，CMD和ENTYRPOINT命令都是期望在容器运行后执行的指令。</p>
+<p>使用CMD构建的镜像，运行镜像时添加的参数会把指令覆盖。</p>
+<p>使用ENTRYPOINT构建的镜像，运行镜像时添加的参数会累加到dockerfile内的命令后面。</p>
+<p>case：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> CMD指令的dockerfile</span><br>FROM centos<br>CMD ["ls -a"]<br><br>docker build -f dockerfile -t testcmd .    # 构建镜像<br><br>docker run testcmd -l        # 报错<br>docker run testcmd ls -al    # 显示目录所有详细条目<br></code></pre></td></tr></tbody></table></figure>
+
+
+
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> ENTRYPOINT的dockerfile</span><br>FROM centos<br>ENTRYPOINT ["ls","-a"]<br><br>docker build -f dockerfile -t testentrypoint .    # 构建镜像<br>docker run testentrypoint -l    # 显示目录所有详细条目<br></code></pre></td></tr></tbody></table></figure>
+
+
+
+<h4 id="编写dockerfile"><a href="#编写dockerfile" class="headerlink" title="编写dockerfile"></a>编写dockerfile</h4><p>编写dockerfile文件，官方命名<code>Dockerfile</code>，build会自动找这个文件进行构建。就不需要<code>-f</code>指定了。</p>
+<h3 id="六、docker网络"><a href="#六、docker网络" class="headerlink" title="六、docker网络"></a>六、docker网络</h3><p>在宿主机使用docker每生成一个容器，都会生成一对网卡。在宿主机使用<code>ping</code>命令可以<code>ping</code>通容器内的网络。</p>
+<p><code>veth-pair</code>是一对虚拟设备接口，都是成对出现的，一段连着协议，一段彼此相连。</p>
+<p><code>veth-pair</code>充当一个桥梁，连接各种虚拟网络设备。</p>
+<p>当容器删除掉，对应的一对网桥就没了。</p>
 <hr>
 <p>written by Rain<br>2020.10.05</p>
 <script>
